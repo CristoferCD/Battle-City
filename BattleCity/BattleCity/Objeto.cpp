@@ -1,5 +1,6 @@
 #include "Objeto.h"
 #include "glCallback.h"
+#include <cstdio>
 
 void Objeto::dibujar()
 {
@@ -10,6 +11,9 @@ void Objeto::dibujar()
 		glBindTexture(GL_TEXTURE_2D, textura);
 		glCallList(idLista);
 		glPopMatrix();
+	}
+	else {
+		printf("Error en lista\n");
 	}
 }
 

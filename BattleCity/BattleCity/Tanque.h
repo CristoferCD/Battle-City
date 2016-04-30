@@ -20,8 +20,6 @@ public:
 	static void updateWrapper(int);
 
 private:
-	unsigned int velActualizacion;
-
 	void update();
 };
 

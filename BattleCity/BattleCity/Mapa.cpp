@@ -7,9 +7,9 @@
 Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 {
 	std::ifstream inFile;
-	int idObjeto;
+	char idObjeto;
 	inFile.open(rutaMapa);
-	if (!inFile) {
+	if (!inFile.is_open()) {
 		std::cout << "Error al abrir el mapa";
 		exit(1);
 	}
@@ -32,7 +32,8 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 
 	//Creación de objetos del mapa
 	int i = 0, j = numTiles;
-	while (inFile >> idObjeto) {
+	while (!inFile.eof()) {
+		inFile >> idObjeto;
 		switch (idObjeto)
 		{
 		case VACIO:
@@ -48,7 +49,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		case LADRILLO:
 			if (!textLadrillo) {
 				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\ladrillo.jpg");
-				textVacio = cubo->getTextura();
+				textLadrillo = cubo->getTextura();
 				objetosDestruibles.push_back(cubo);
 			}
 			else {
@@ -58,7 +59,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		case MURO:
 			if (!textMuro) {
 				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\muro.jpg");
-				textVacio = cubo->getTextura();
+				textMuro = cubo->getTextura();
 				objetosEstaticos.push_back(cubo);
 			}
 			else {
@@ -68,7 +69,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		case ARBUSTO:
 			if (!textArbusto) {
 				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\arbusto.jpg");
-				textVacio = cubo->getTextura();
+				textArbusto = cubo->getTextura();
 				objetosNoDestruibles.push_back(cubo);
 			}
 			else {
@@ -78,7 +79,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		case AGUA:
 			if (!textAgua) {
 				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\agua.jpg");
-				textVacio = cubo->getTextura();
+				textAgua = cubo->getTextura();
 				objetosNoDestruibles.push_back(cubo);
 			}
 			else {
@@ -88,9 +89,11 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		default:
 			break;
 		}
-		i += tileSize;
+		i++;
 		i = i%numTiles;
-		if (i == 0) j -= tileSize;
+		if (i == 0) j--;
+		//Final del mapa (y, en teoría, del archivo)
+		if (j == 0) break;
 	}
 
 	//Carga la base en 3d (para la versión final)
@@ -98,16 +101,32 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 	GLuint listaBase = glmList(glmReadOBJ("modelos\\base.obj"), GL_FLAT | GL_TEXTURE);
 	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 0.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
 	*/
-
 	GLuint listaBase = glGenLists(1);
 	glNewList(listaBase, GL_COMPILE);
 	plano();
 	glEndList();
 	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 0.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
+	
 	inFile.close();
 }
 
 
 Mapa::~Mapa()
 {
+}
+
+void Mapa::dibujar()
+{
+	for each (Objeto *var in objetosDestruibles)
+	{
+		var->dibujar();
+	}
+	for each (Objeto *var in objetosEstaticos)
+	{
+		var->dibujar();
+	}
+	for each (Objeto *var in objetosNoDestruibles)
+	{
+		var->dibujar();
+	}
 }

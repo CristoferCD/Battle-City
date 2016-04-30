@@ -9,17 +9,17 @@ class glCallback;
 static glCallback *instanciaCB;
 
 
-static class glCallback
+class glCallback
 {
 public:
 
-	enum camaras {VIEW_1P = 0, VIEW_3P, VIEW_DRONE};
+	enum camaras {VIEW_1P, VIEW_3P, VIEW_DRONE};
 	camaras camaraActual;
 	Tanque *tanque;
 	GLint height = 960;
 	GLint width = 540;
 
-	glCallback(camaras camaraDefecto, Tanque *Tanque);
+	glCallback(Tanque *Tanque, camaras camaraDefecto);
 	~glCallback();
 
 	void joy(unsigned int mask, int x, int y, int z);
@@ -27,12 +27,10 @@ public:
 	void teclado(unsigned char c, int x, int y);
 	void tecladoUp(unsigned char key, int x, int y);
 	void resize(GLint newWidth, GLint newHeight);
-	void cargarTextura(GLuint &textura, const char* rutaTextura);
-	bool testColision(Objeto *a, Objeto *b);
+	static void cargarTextura(GLuint &textura, const char* rutaTextura);
+	static bool testColision(Objeto *a, Objeto *b);
 
 private:
-	const float PI = 3.1416;
-	bool iluminacion = true;
 	void cam1persona();
 	void cam3persona();
 	void camDrone();

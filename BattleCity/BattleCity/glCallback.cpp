@@ -2,7 +2,7 @@
 #include <math.h>
 #include <GL\SOIL.h>
 
-glCallback::glCallback(camaras camaraDefecto, Tanque *Tanque)
+glCallback::glCallback(Tanque *Tanque, camaras camaraDefecto)
 {
 	camaraActual = camaraDefecto;
 	tanque = Tanque;
@@ -13,6 +13,7 @@ glCallback::~glCallback()
 {
 }
 
+//No adaptada al tanque, desactivada por ahora
 void glCallback::joy(unsigned int mask, int x, int y, int z)
 {
 	//El valor máximo del stick es 1000, así produce un aumento entre 0.1 y 0.5
@@ -46,7 +47,6 @@ void glCallback::joy(unsigned int mask, int x, int y, int z)
 	}
 
 	tanque->vel = tanque->vel > tanque->velMaxima ? tanque->velMaxima : tanque->vel;	//Velocidad máxima
-	tanque->vel = tanque->vel < tanque->velMaximaNegativa ? tanque->velMaximaNegativa : tanque->vel;	//Velocidad máxima hacia atrás
 
 	glutPostRedisplay();						
 
@@ -118,20 +118,14 @@ void glCallback::cam1persona()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	punto objetivo;
-	objetivo.x = tanque->posActual.x + cos(tanque->rotacion*PI / 180)*60.0;
-	objetivo.y = tanque->posActual.y + sin(tanque->rotacion*PI / 180)*60.0;
+	objetivo.x = tanque->posActual.x + cos(tanque->rotacion*M_PI / 180)*60.0;
+	objetivo.y = tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*60.0;
 	objetivo.z = tanque->posActual.z;
 	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 1000.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(tanque->posActual.x + cos(tanque->rotacion*PI / 180) * 10, tanque->posActual.y + sin(tanque->rotacion*PI / 180)*10.0, 30,
+	gluLookAt(tanque->posActual.x + cos(tanque->rotacion*M_PI / 180) * 10, tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*10.0, 30,
 		objetivo.x, objetivo.y, objetivo.z, 0, 0, 1);
-	if (iluminacion) {
-		glEnable(GL_LIGHT0);
-		iluminarTanque();
-	}
-	else
-		glDisable(GL_LIGHT0);
 }
 
 void glCallback::cam3persona()
@@ -139,42 +133,31 @@ void glCallback::cam3persona()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	punto objetivo;
-	objetivo.x = tanque->posActual.x + cos(tanque->rotacion*PI / 180)*80.0;
-	objetivo.y = tanque->posActual.y + sin(tanque->rotacion*PI / 180)*80.0;
+	objetivo.x = tanque->posActual.x + cos(tanque->rotacion*M_PI / 180)*80.0;
+	objetivo.y = tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*80.0;
 	objetivo.z = tanque->posActual.z;
 	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 1000.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(tanque->posActual.x - cos(tanque->rotacion*PI / 180) * 30, tanque->posActual.y - sin(tanque->rotacion*PI / 180)*30.0, 30,
+	gluLookAt(tanque->posActual.x - cos(tanque->rotacion*M_PI / 180) * 30, tanque->posActual.y - sin(tanque->rotacion*M_PI / 180)*30.0, 30,
 		objetivo.x, objetivo.y, objetivo.z, 0, 0, 1);
-	if (iluminacion) {
-		glEnable(GL_LIGHT0);
-		iluminarTanque();
-	}
-	else
-		glDisable(GL_LIGHT0);
 }
 
 void glCallback::camDrone()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	//gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 1000.0);
 	glOrtho(-100.0f, 100.0f, -100.0f, 100.0f, 0.0, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(tanque->posActual.x, tanque->posActual.y, 300, tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 0, 1, 0);
-	if (iluminacion) {
-		glEnable(GL_LIGHT0);
-		iluminarTanque();
-	}
-	else
-		glDisable(GL_LIGHT0);
+	gluLookAt(tanque->posActual.x, tanque->posActual.y, 200, tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 0, 1, 0);
 }
 
 void glCallback::iluminarTanque()
 {
 	GLfloat luzPos[] = { tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 1.0 };
-	GLfloat luzDir[] = { cos(tanque->rotacion*PI / 180) , sin(tanque->rotacion*PI / 180) , 0.1 };
+	GLfloat luzDir[] = { cos(tanque->rotacion*M_PI / 180) , sin(tanque->rotacion*M_PI / 180) , 0.1 };
 
 	glLightfv(GL_LIGHT0, GL_POSITION, luzPos);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, luzDir);
