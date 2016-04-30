@@ -28,3 +28,7 @@ void Display() {
 			it = objetosDestruibles.erase(it);
 	}
 }
+
+int main(int argc, char **argv) {
+	glutKeyboardUpFunc(tecladoUpWrapper);
+}
