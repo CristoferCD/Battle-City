@@ -37,17 +37,17 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		{
 		case VACIO:
 			if (!textVacio) {
-				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\suelo.png");
+				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\suelo.jpg");
 				textVacio = cubo->getTextura();
-				objetosEstaticos.push_back(cubo);
+				objetosNoDestruibles.push_back(cubo);
 			}
 			else {
-				objetosEstaticos.push_back(new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), textVacio));
+				objetosNoDestruibles.push_back(new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), textVacio));
 			}
 			break;
 		case LADRILLO:
 			if (!textLadrillo) {
-				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\ladrillo.png");
+				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\ladrillo.jpg");
 				textVacio = cubo->getTextura();
 				objetosDestruibles.push_back(cubo);
 			}
@@ -57,7 +57,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 			break;
 		case MURO:
 			if (!textMuro) {
-				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\muro.png");
+				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\muro.jpg");
 				textVacio = cubo->getTextura();
 				objetosEstaticos.push_back(cubo);
 			}
@@ -67,7 +67,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 			break;
 		case ARBUSTO:
 			if (!textArbusto) {
-				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\arbusto.png");
+				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\arbusto.jpg");
 				textVacio = cubo->getTextura();
 				objetosNoDestruibles.push_back(cubo);
 			}
@@ -77,7 +77,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 			break;
 		case AGUA:
 			if (!textAgua) {
-				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\agua.png");
+				Objeto *cubo = new Objeto(listaCubo, punto(1.0, 1.0, 1.0), punto(i*tileSize, j*tileSize, 0.0f), punto(tileSize, tileSize, 1.0f), "textures\\agua.jpg");
 				textVacio = cubo->getTextura();
 				objetosNoDestruibles.push_back(cubo);
 			}
@@ -93,10 +93,17 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		if (i == 0) j -= tileSize;
 	}
 
-	//Carga la base
+	//Carga la base en 3d (para la versión final)
+	/*
 	GLuint listaBase = glmList(glmReadOBJ("modelos\\base.obj"), GL_FLAT | GL_TEXTURE);
-	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 0.0f), punto(2.0, 2.0, 1.0), "tex\\base.png"));
+	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 0.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
+	*/
 
+	GLuint listaBase = glGenLists(1);
+	glNewList(listaBase, GL_COMPILE);
+	plano();
+	glEndList();
+	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 0.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
 	inFile.close();
 }
 

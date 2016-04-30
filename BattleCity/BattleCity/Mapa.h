@@ -15,7 +15,7 @@ public:
 	~Mapa();
 
 	std::vector <Objeto*> objetosDestruibles;		//Desaparecen con el contacto de una bala y no se pueden atravesar
-	std::vector <Objeto*> objetosEstaticos;			//Inmunes a las balas y no atravesables.
-	std::vector <Objeto*> objetosNoDestruibles;		//Inmunes a las balas y atravesables.
+	std::vector <Objeto*> objetosEstaticos;			//Paran las balas y no atravesables.
+	std::vector <Objeto*> objetosNoDestruibles;		//Inmunes a las balas (atraviesan) y atravesables.
 };
 
