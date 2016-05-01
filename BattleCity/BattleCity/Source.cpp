@@ -21,7 +21,7 @@ void cargarLuces() {
 }
 
 void initComponents() {
-	tanque = new Tanque("models\\MainTank.obj", "", punto(0,0,10));
+	tanque = new Tanque("models\\MainTank.obj", "", punto(50, 50, 10));
 	mapa = new Mapa("mapas\\nivel1.map");
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
 }
@@ -33,7 +33,7 @@ void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	mapa->dibujar();
-	//tanque->dibujar();
+	tanque->dibujar();
 
 	glPushMatrix();
 	glBegin(GL_LINES);
