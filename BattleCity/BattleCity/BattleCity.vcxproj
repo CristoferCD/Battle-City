@@ -162,6 +162,7 @@
     <ClInclude Include="glCallback.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="Objeto.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Tanque.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

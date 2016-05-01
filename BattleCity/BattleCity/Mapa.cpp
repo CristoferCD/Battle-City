@@ -4,13 +4,15 @@
 #include <glm.h>
 #include "figuras.h"
 
+using namespace std;
+
 Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 {
 	std::ifstream inFile;
 	char idObjeto;
 	inFile.open(rutaMapa);
 	if (!inFile.is_open()) {
-		std::cout << "Error al abrir el mapa";
+		cout << "Error al abrir el mapa";
 		exit(1);
 	}
 	GLuint textVacio = 0;
@@ -25,7 +27,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 	glEndList();
 
 	if (!listaCubo) {
-		std::cout << "Error al crear la listaCubo";
+		cout << "Error al crear la listaCubo";
 		exit(1);
 	}
 
@@ -33,6 +35,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 	int i = 0, j = numTiles;
 	while (!inFile.eof()) {
 		inFile >> idObjeto;
+		cout << idObjeto << endl;
 		switch (idObjeto)
 		{
 		case VACIO:

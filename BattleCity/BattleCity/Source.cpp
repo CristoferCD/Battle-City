@@ -14,7 +14,7 @@ Proyecto Final CoGa - Battle City
 
 Mapa *mapa;
 Tanque *tanque;
-glCallback * callback;
+glCallback *callback;
 
 void cargarLuces() {
 
@@ -22,7 +22,7 @@ void cargarLuces() {
 
 void initComponents() {
 	tanque = new Tanque("models\\MainTank.obj", "", punto(50, 50, 10));
-	mapa = new Mapa("mapas\\nivel1.map");
+	mapa = new Mapa("mapas\\test\\testAgua.map");
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
 }
 
@@ -34,7 +34,7 @@ void display() {
 	
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
-	tanque->dibujar();
+	//tanque->dibujar();
 
 	glPushMatrix();
 	glBegin(GL_LINES);
