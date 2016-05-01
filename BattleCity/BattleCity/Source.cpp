@@ -21,8 +21,8 @@ void cargarLuces() {
 }
 
 void initComponents() {
-	tanque = new Tanque("models\\MainTank.obj", "", punto(50, 50, 10));
-	mapa = new Mapa("mapas\\test\\testAgua.map");
+	tanque = new Tanque("models\\MainTank.obj", "", punto(50, 50, 50));
+	mapa = new Mapa("mapas\\nivel1.map");
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
 }
 
@@ -80,6 +80,7 @@ int main(int argc, char **argv) {
 	glEnable(GL_NORMALIZE);
 	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_CULL_FACE);
 	//glEnable(GL_FOG);
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_LIGHT0);

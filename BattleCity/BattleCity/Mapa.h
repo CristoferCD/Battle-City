@@ -11,7 +11,7 @@
 class Mapa
 {
 public:
-	Mapa(const char* rutaMapa, int tileSize = 10, int numTiles = 26);
+	Mapa(const char* rutaMapa, int tileSize = 1, int numTiles = 26);
 	~Mapa();
 
 	void dibujar();
