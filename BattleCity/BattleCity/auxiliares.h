@@ -19,8 +19,11 @@ public:
 		return punto(a.x*x, a.y*y, a.z*z);
 	}
 
-	punto operator += (punto a) {
-		return punto(a.x + x, a.y + y, a.z + z);
+	punto& operator += (const punto& a) {
+		x += a.x;
+		y += a.y;
+		z += a.z;
+		return *this;
 	}
 };
 

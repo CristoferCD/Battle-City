@@ -38,7 +38,7 @@ void Tanque::updateWrapper(int)
 
 void Tanque::update()
 {
-	posActual += punto(cos(rotacion + M_PI / 180)*vel, sin(rotacion + M_PI / 180)*vel, 10);
+	posActual += punto(cos(rotacion + M_PI / 180)*vel, sin(rotacion + M_PI / 180)*vel, 0);
 	this->boundingBox.c = posActual;
 
 	glutPostRedisplay();
