@@ -19,13 +19,15 @@ Tanque::~Tanque()
 void Tanque::dibujar()
 {
 	glPushMatrix();
+	glTranslatef(posActual.x, posActual.y, posActual.z);
 	glRotatef(rotacion, 0, 0, 1);
 	glRotatef(90, 1, 0, 0);
 	glScalef(escala.x, escala.y, escala.z);
 	//glBindTexture(GL_TEXTURE_2D, textura);
 	//Temporalmente color sólido, hasta crear una textura
 	glColor3f(1.0f, 1.0f, 0.0f);
-	glCallList(idLista);
+	//glCallList(idLista);
+	glutSolidTeapot(20);
 	glPopMatrix();
 }
 
@@ -36,7 +38,7 @@ void Tanque::updateWrapper(int)
 
 void Tanque::update()
 {
-	posActual = punto(cos(rotacion + M_PI / 180)*vel, sin(rotacion + M_PI / 180)*vel, 10);
+	posActual += punto(cos(rotacion + M_PI / 180)*vel, sin(rotacion + M_PI / 180)*vel, 10);
 	this->boundingBox.c = posActual;
 
 	glutPostRedisplay();

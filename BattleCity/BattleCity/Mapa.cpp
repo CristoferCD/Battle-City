@@ -35,7 +35,6 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 	int i = 0, j = numTiles;
 	while (!inFile.eof()) {
 		inFile >> idObjeto;
-		cout << idObjeto << endl;
 		switch (idObjeto)
 		{
 		case VACIO:

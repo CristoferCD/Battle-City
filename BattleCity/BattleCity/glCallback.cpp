@@ -147,7 +147,7 @@ void glCallback::camDrone()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 1000.0);
+	gluPerspective(60.0, (GLdouble)this->width / this->height, 1.0, 1000.0);
 	//glOrtho(-100.0f, 100.0f, -100.0f, 100.0f, 0.0, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -177,6 +177,7 @@ void glCallback::resize(GLint newWidth, GLint newHeight) {
 	// Reinicia el sistema de coordenadas
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Establece el volumen de trabajo
 	gluPerspective(60.0f, (GLdouble)this->width / this->height, 1.0f, 1000.0f);

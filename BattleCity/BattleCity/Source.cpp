@@ -5,12 +5,15 @@ Proyecto Final CoGa - Battle City
 */
 
 #include <vector>
+#include <iostream>
 #include <GL\glut.h>
 #include <GL\SOIL.h>
 #include "figuras.h"
 #include "glCallback.h"
 #include "Objeto.h"
 #include "Mapa.h"
+
+using namespace std;
 
 Mapa *mapa;
 Tanque *tanque;
@@ -22,7 +25,7 @@ void cargarLuces() {
 
 void initComponents() {
 	tanque = new Tanque("models\\MainTank.obj", "", punto(50, 50, 50));
-	mapa = new Mapa("mapas\\nivel1.map");
+	//mapa = new Mapa("mapas\\nivel1.map");
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
 }
 
@@ -33,8 +36,22 @@ void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glColor3f(1, 1, 1);
-	mapa->dibujar();
+	//mapa->dibujar();
 	//tanque->dibujar();
+	/*Tanque - dibujar*/
+	glPushMatrix();
+	glTranslatef(tanque->posActual.x, tanque->posActual.y, tanque->posActual.z);
+	cout << "Tanque->posActual = [" << tanque->posActual.x << "," << tanque->posActual.y << "," << tanque->posActual.z << "]" << endl;
+	glRotatef(tanque->rotacion, 0, 0, 1);
+	cout << "Tanque->rotacion = " << tanque->rotacion << endl;
+	glRotatef(90, 1, 0, 0);
+	//glScalef(escala.x, escala.y, escala.z);
+	//glBindTexture(GL_TEXTURE_2D, textura);
+	//Temporalmente color sólido, hasta crear una textura
+	glColor3f(1.0f, 1.0f, 0.0f);
+	//glCallList(idLista);
+	glutSolidTeapot(20);
+	glPopMatrix();
 
 	glPushMatrix();
 	glBegin(GL_LINES);
@@ -77,10 +94,10 @@ int main(int argc, char **argv) {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glEnable(GL_NORMALIZE);
+	//glEnable(GL_NORMALIZE);
 	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	//glEnable(GL_FOG);
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_LIGHT0);
