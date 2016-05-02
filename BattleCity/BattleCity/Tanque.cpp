@@ -27,7 +27,7 @@ void Tanque::dibujar()
 	//Temporalmente color sólido, hasta crear una textura
 	glColor3f(1.0f, 1.0f, 0.0f);
 	//glCallList(idLista);
-	glutSolidTeapot(20);
+	glutSolidTeapot(5);
 	glPopMatrix();
 }
 

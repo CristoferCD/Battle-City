@@ -35,22 +35,17 @@ void display() {
 	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	glColor3f(1, 1, 1);
+	//glColor3f(1, 1, 1);
 	//mapa->dibujar();
 	//tanque->dibujar();
 	/*Tanque - dibujar*/
 	glPushMatrix();
-	glTranslatef(tanque->posActual.x, tanque->posActual.y, tanque->posActual.z);
+	glTranslatef(tanque->posActual.x, tanque->posActual.y, tanque->posActual.z-50);
 	cout << "Tanque->posActual = [" << tanque->posActual.x << "," << tanque->posActual.y << "," << tanque->posActual.z << "]" << endl;
 	glRotatef(tanque->rotacion, 0, 0, 1);
 	cout << "Tanque->rotacion = " << tanque->rotacion << endl;
 	glRotatef(90, 1, 0, 0);
-	//glScalef(escala.x, escala.y, escala.z);
-	//glBindTexture(GL_TEXTURE_2D, textura);
-	//Temporalmente color sólido, hasta crear una textura
-	glColor3f(1.0f, 1.0f, 0.0f);
-	//glCallList(idLista);
-	glutSolidTeapot(20);
+	glutSolidTeapot(5);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -95,9 +90,9 @@ int main(int argc, char **argv) {
 	glLoadIdentity();
 
 	//glEnable(GL_NORMALIZE);
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	//glEnable(GL_FOG);
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_LIGHT0);
