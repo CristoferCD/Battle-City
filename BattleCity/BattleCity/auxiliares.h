@@ -34,4 +34,16 @@ public:
 
 	punto c;
 	punto r;
+
+	void dibujar() {
+		glPushMatrix();
+		glColor3f(1, 0, 0);
+		glBegin(GL_QUADS);
+		glVertex3f(c.x - r.x, c.y - r.y, c.z);
+		glVertex3f(c.x + r.x, c.y - r.y, c.z);
+		glVertex3f(c.x + r.x, c.y + r.y, c.z);
+		glVertex3f(c.x - r.x, c.y + r.y, c.z);
+		glEnd();
+		glPopMatrix();
+	}
 };

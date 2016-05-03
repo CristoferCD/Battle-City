@@ -40,12 +40,12 @@ void display() {
 
 	for each (Objeto *var in mapa->objetosDestruibles) {
 		if (glCallback::testColision(tanque, var)) {
-			tanque->vel = tanque->vel != 0 ? 0 : -0.2f;
+			tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
 		}
 	}
 	for each (Objeto *var in mapa->objetosEstaticos) {
 		if (glCallback::testColision(tanque, var)) {
-			tanque->vel = tanque->vel != 0 ? 0 : -0.2f;
+			tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
 		}
 	}
 
