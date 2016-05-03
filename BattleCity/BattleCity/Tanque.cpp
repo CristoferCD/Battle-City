@@ -26,8 +26,7 @@ void Tanque::dibujar()
 	//glBindTexture(GL_TEXTURE_2D, textura);
 	//Temporalmente color sólido, hasta crear una textura
 	glColor3f(1.0f, 1.0f, 0.0f);
-	//glCallList(idLista);
-	glutSolidTeapot(5);
+	glCallList(idLista);
 	glPopMatrix();
 }
 
@@ -41,7 +40,8 @@ void Tanque::update()
 	posActual += punto(cos(rotacion + M_PI / 180)*vel, sin(rotacion + M_PI / 180)*vel, 0);
 	this->boundingBox.c = posActual;
 
-	glutPostRedisplay();
+	//Aquí fallo nº1
+	//glutPostRedisplay();
 	glutTimerFunc(15, updateWrapper, 0);
 }
 
