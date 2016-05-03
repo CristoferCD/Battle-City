@@ -2,12 +2,12 @@
 #include <math.h>
 
 
-Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, float velMaxima, float aceleracion)
+Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, float velMaxima, int aceleracion)
 	: Objeto(glmList(readOBJ((char*)Modelo), GLM_SMOOTH | GLM_TEXTURE), punto(2, 2, 2), Posicion, punto(2, 2, 2), rutaTextura)
 {
 	this->velMaxima = velMaxima;
 	this->aceleracion = aceleracion;
-	rotacion = 0;
+	rotacion = 90;
 	instanciaTanque = this;
 }
 
@@ -20,7 +20,8 @@ void Tanque::dibujar()
 {
 	glPushMatrix();
 	glTranslatef(posActual.x, posActual.y, posActual.z);
-	glRotatef(rotacion, 0, 0, 1);
+	//El -90 ajusta la rotación del modelo
+	glRotatef(rotacion-90, 0, 0, 1);
 	glRotatef(90, 1, 0, 0);
 	glScalef(escala.x, escala.y, escala.z);
 	//glBindTexture(GL_TEXTURE_2D, textura);
@@ -37,11 +38,26 @@ void Tanque::updateWrapper(int)
 
 void Tanque::update()
 {
-	posActual += punto(cos(rotacion + M_PI / 180)*vel, sin(rotacion + M_PI / 180)*vel, 0);
+	switch (rotacion)
+	{
+	case 0:
+		posActual.x += vel;
+		break;
+	case 90:
+		posActual.y += vel;
+		break;
+	case 180:
+		posActual.x -= vel;
+		break;
+	case 270:
+		posActual.y -= vel;
+		break;
+	default:
+		break;
+	}
 	this->boundingBox.c = posActual;
 
-	//Aquí fallo nº1
-	//glutPostRedisplay();
+	glutPostRedisplay();
 	glutTimerFunc(15, updateWrapper, 0);
 }
 

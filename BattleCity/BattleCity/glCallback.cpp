@@ -1,6 +1,7 @@
 #include "glCallback.h"
 #include <math.h>
 #include <GL\SOIL.h>
+#include <cstdio>
 
 glCallback::glCallback(Tanque *Tanque, camaras camaraDefecto)
 {
@@ -48,7 +49,7 @@ void glCallback::joy(unsigned int mask, int x, int y, int z)
 
 	tanque->vel = tanque->vel > tanque->velMaxima ? tanque->velMaxima : tanque->vel;	//Velocidad máxima
 
-	glutPostRedisplay();						
+	//glutPostRedisplay();						
 
 }
 
@@ -75,19 +76,19 @@ void glCallback::teclado(unsigned char c, int x, int y)
 	switch (c) {
 	case 'w':
 		if (tanque->rotacion != 90) tanque->rotacion = 90;
-		else tanque->vel += tanque->aceleracion;
+		tanque->vel += tanque->aceleracion;
 		break;
 	case 'a':
 		if (tanque->rotacion != 180) tanque->rotacion = 180;
-		else tanque->vel += tanque->aceleracion;
+		tanque->vel += tanque->aceleracion;
 		break;
 	case 's':
 		if (tanque->rotacion != 270) tanque->rotacion = 270;
-		else tanque->vel += tanque->aceleracion;
+		tanque->vel += tanque->aceleracion;
 		break;
 	case 'd':
 		if (tanque->rotacion != 0) tanque->rotacion = 0;
-		else tanque->vel += tanque->aceleracion;
+		tanque->vel += tanque->aceleracion;
 		break;
 	default:
 		break;
@@ -152,6 +153,7 @@ void glCallback::camDrone()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(tanque->posActual.x, tanque->posActual.y, 200, tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 0, 1, 0);
+	printf("CÁMARA: \ngluLookAt(%f, %f, 200, (y posicion otra vez))\n", tanque->posActual.x, tanque->posActual.y);
 }
 
 void glCallback::iluminarTanque()

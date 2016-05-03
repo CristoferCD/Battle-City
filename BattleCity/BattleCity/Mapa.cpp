@@ -102,12 +102,12 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 	GLuint listaBase = glmList(glmReadOBJ("modelos\\base.obj"), GL_FLAT | GL_TEXTURE);
 	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 0.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
 	*/
-	//GLuint listaBase = glGenLists(1);
-	//glNewList(listaBase, GL_COMPILE);
-	//plano();
-	//glEndList();
-	//objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 0.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
-	//
+	GLuint listaBase = glGenLists(1);
+	glNewList(listaBase, GL_COMPILE);
+	plano();
+	glEndList();
+	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 20.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
+	
 	inFile.close();
 }
 
