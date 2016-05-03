@@ -57,6 +57,9 @@ void Tanque::update()
 	}
 	this->boundingBox.c = posActual;
 
+	//Para que en las colisiones no siga a la deriva
+	vel = vel < 0 ? 0 : vel;
+
 	glutPostRedisplay();
 	glutTimerFunc(15, updateWrapper, 0);
 }

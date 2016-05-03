@@ -1,7 +1,6 @@
 #include "glCallback.h"
 #include <math.h>
 #include <GL\SOIL.h>
-#include <cstdio>
 
 glCallback::glCallback(Tanque *Tanque, camaras camaraDefecto)
 {
@@ -153,7 +152,6 @@ void glCallback::camDrone()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(tanque->posActual.x, tanque->posActual.y, 100, tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 0, 1, 0);
-	printf("CÁMARA: \ngluLookAt(%f, %f, 200, (y posicion otra vez))\n", tanque->posActual.x, tanque->posActual.y);
 }
 
 void glCallback::iluminarTanque()
@@ -208,7 +206,8 @@ bool glCallback::testColision(Objeto *a, Objeto *b)
 
 	if (fabs(centroA.x - centroB.x) > (radioA.x + radioB.x)) xOverlap = false;
 	if (fabs(centroA.y - centroB.y) > (radioA.y + radioB.y)) yOverlap = false;
-	if (fabs(centroA.z - centroB.z) > (radioA.z + radioB.z)) zOverlap = false;
+	//Las colisiones se calculan en 2D
+	//if (fabs(centroA.z - centroB.z) > (radioA.z + radioB.z)) zOverlap = false;
 
 	return xOverlap && yOverlap && zOverlap;
 }

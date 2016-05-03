@@ -31,13 +31,23 @@ void initComponents() {
 
 void display() {
 	camaraWrapper(callback->camaraActual);
-	cout << "Cámara actual: " << callback->camaraActual << endl;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
 	tanque->dibujar();
+
+	for each (Objeto *var in mapa->objetosDestruibles) {
+		if (glCallback::testColision(tanque, var)) {
+			tanque->vel = tanque->vel != 0 ? 0 : -0.2f;
+		}
+	}
+	for each (Objeto *var in mapa->objetosEstaticos) {
+		if (glCallback::testColision(tanque, var)) {
+			tanque->vel = tanque->vel != 0 ? 0 : -0.2f;
+		}
+	}
 
 	/*
 	for (auto it = (mapa->objetosDestruibles.begin()); it != mapa->objetosDestruibles.end();) {
