@@ -2,7 +2,7 @@
 #include <math.h>
 
 
-Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, float velMaxima, int aceleracion)
+Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion)
 	: Objeto(glmList(readOBJ((char*)Modelo), GLM_SMOOTH | GLM_TEXTURE), punto(2, 2, 2), Posicion, punto(2, 2, 2), rutaTextura)
 {
 	this->velMaxima = velMaxima;

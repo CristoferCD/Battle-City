@@ -49,7 +49,7 @@ void glCallback::joy(unsigned int mask, int x, int y, int z)
 
 	tanque->vel = tanque->vel > tanque->velMaxima ? tanque->velMaxima : tanque->vel;	//Velocidad máxima
 
-	//glutPostRedisplay();						
+	glutPostRedisplay();						
 
 }
 
@@ -148,11 +148,11 @@ void glCallback::camDrone()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	//gluPerspective(60.0, (GLdouble)this->width / this->height, 1.0, 1000.0);
-	glOrtho(-100.0f, 100.0f, -100.0f, 100.0f, 0.0, 1000.0f);
+	gluPerspective(60.0, (GLdouble)this->width / this->height, 1.0, 1000.0);
+	//glOrtho(-100.0f, 100.0f, -100.0f, 100.0f, 0.0, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(tanque->posActual.x, tanque->posActual.y, 200, tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 0, 1, 0);
+	gluLookAt(tanque->posActual.x, tanque->posActual.y, 100, tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 0, 1, 0);
 	printf("CÁMARA: \ngluLookAt(%f, %f, 200, (y posicion otra vez))\n", tanque->posActual.x, tanque->posActual.y);
 }
 

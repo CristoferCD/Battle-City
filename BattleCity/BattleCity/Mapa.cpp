@@ -106,7 +106,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 	glNewList(listaBase, GL_COMPILE);
 	plano();
 	glEndList();
-	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 20.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
+	objetosDestruibles.push_back(new Objeto(listaBase, punto(1.0, 1.0, 1.0), punto(numTiles*tileSize / 2, numTiles*tileSize / 2, 1.0f), punto(2.0, 2.0, 1.0), "tex\\base.jpg"));
 	
 	inFile.close();
 }

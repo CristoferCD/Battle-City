@@ -10,10 +10,10 @@ class Tanque : public Objeto
 public:
 	GLfloat vel = 0.0f;	//Velocidad del coche en función de los ejes
 	int rotacion;
-	int aceleracion;
-	float velMaxima;
+	float aceleracion;
+	int velMaxima;
 	
-	Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, float velMaxima = 2.0f, int aceleracion = 1);
+	Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima = 1, float aceleracion = 0.5f);
 	~Tanque();
 	
 	void dibujar() override;
