@@ -108,6 +108,22 @@ void glCallback::tecladoUp(unsigned char key, int x, int y)
 	case 'd':
 		tanque->vel = 0;
 		break;
+	case 'c':
+		switch (camaraActual)
+		{
+		case glCallback::VIEW_1P:
+			camaraActual = camaras::VIEW_3P;
+			break;
+		case glCallback::VIEW_3P:
+			camaraActual = camaras::VIEW_DRONE;
+			break;
+		case glCallback::VIEW_DRONE:
+			camaraActual = camaras::VIEW_1P;
+			break;
+		default:
+			break;
+		}
+		break;
 	default:
 		break;
 	}
@@ -133,14 +149,13 @@ void glCallback::cam3persona()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	punto objetivo;
-	objetivo.x = tanque->posActual.x + cos(tanque->rotacion*M_PI / 180)*80.0;
-	objetivo.y = tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*80.0;
+	objetivo.x = tanque->posActual.x;
+	objetivo.y = tanque->posActual.y + 80.0;
 	objetivo.z = tanque->posActual.z;
 	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 1000.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(tanque->posActual.x - cos(tanque->rotacion*M_PI / 180) * 30, tanque->posActual.y - sin(tanque->rotacion*M_PI / 180)*30.0, 30,
-		objetivo.x, objetivo.y, objetivo.z, 0, 0, 1);
+	gluLookAt(tanque->posActual.x, tanque->posActual.y - 50.0, 50, objetivo.x, objetivo.y, objetivo.z, 0, 0, 1);
 }
 
 void glCallback::camDrone()
