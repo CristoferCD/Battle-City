@@ -37,6 +37,10 @@ void display() {
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
 	tanque->dibujar();
+	//TODO vector de objetos para dibujar proyectiles
+	//TODO override dibujar para incluir la comprobación
+	if (tanque->bala->enAire)
+		tanque->bala->dibujar();
 
 	for each (Objeto *var in mapa->objetosDestruibles) {
 		if (glCallback::testColision(tanque, var)) {
@@ -48,11 +52,14 @@ void display() {
 			tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
 		}
 	}
-
-	for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
-		if (glCallback::testColision(tanque, mapa->objetosDestruibles.at(i)))
-			mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
-	}
+	if(tanque->bala->enAire)
+		for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
+			if (glCallback::testColision(tanque->bala, mapa->objetosDestruibles.at(i))) {
+				mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
+				tanque->bala->enAire = false;
+				//Tanque -> disparosRealizados--;
+			}
+		}
 	
 
 	glutSwapBuffers();

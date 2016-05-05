@@ -89,6 +89,9 @@ void glCallback::teclado(unsigned char c, int x, int y)
 		if (tanque->rotacion != 0) tanque->rotacion = 0;
 		tanque->vel += tanque->aceleracion;
 		break;
+	case 'j':
+		tanque->disparar();
+		break;
 	default:
 		break;
 	}

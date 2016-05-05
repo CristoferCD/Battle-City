@@ -153,6 +153,7 @@
     <ClCompile Include="glm.cpp" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Objeto.cpp" />
+    <ClCompile Include="Proyectil.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tanque.cpp" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="glCallback.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="Objeto.h" />
+    <ClInclude Include="Proyectil.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Tanque.h" />
   </ItemGroup>

@@ -1,13 +1,25 @@
 #include "Tanque.h"
+#include "figuras.h"
 #include <math.h>
 
 
-Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion)
+Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion, int cadenciaDisparo)
 	: Objeto(glmList(readOBJ((char*)Modelo), GLM_SMOOTH | GLM_TEXTURE), punto(1.2, 1.2, 1.2), Posicion, punto(2, 2, 2), rutaTextura)
 {
 	this->velMaxima = velMaxima;
 	this->aceleracion = aceleracion;
 	rotacion = 90;
+	//Hacer un vector de balas de este tamaño
+	this->cadenciaDisparo = cadenciaDisparo;
+
+	int listBala = glGenLists(1);
+	glNewList(listBala, GL_COMPILE);
+	glColor3f(1, 0, 0);
+	cubo();
+	glEndList();
+
+	bala = new Proyectil(listBala, punto(0.6, 0.6, 0.6), Posicion, punto(1, 1, 1), 0);
+
 	instanciaTanque = this;
 }
 
@@ -36,6 +48,45 @@ void Tanque::updateWrapper(int)
 	instanciaTanque->update();
 }
 
+void Tanque::disparar()
+{
+	//if (/*balas.size() > 0*/) {		//TOOD: hacer un array de balas para que esto funcione
+		bala->enAire = true;
+		bala->posActual.z = 10;
+		bala->update();				//Se fuerza la primera actualización
+		switch (rotacion)
+		{
+		case 0:
+			bala->aceleracionX = 1;			//La bala se mueve hacia la derecha
+			bala->aceleracionY = 0;
+			bala->posActual = posActual;	//Se dispara desde el tanque
+			bala->posActual.x += 1;			//Con un desfase en función de a donde se apunta
+			break;
+		case 90:
+			bala->aceleracionY = 1;
+			bala->aceleracionX = 0;
+			bala->posActual = posActual;
+			bala->posActual.y += 1;
+			break;
+		case 180:
+			bala->aceleracionX = -1;
+			bala->aceleracionY = 0;
+			bala->posActual = posActual;
+			bala->posActual.x -= 1;
+			break;
+		case 270:
+			bala->aceleracionY = -1;
+			bala->aceleracionX = 0;
+			bala->posActual = posActual;
+			bala->posActual.y -= 1;
+			break;
+		default:
+			break;
+		}
+		disparosRealizados++;
+	//}
+}
+
 void Tanque::update()
 {
 	switch (rotacion)
@@ -59,6 +110,11 @@ void Tanque::update()
 
 	//Para que en las colisiones no siga a la deriva
 	vel = vel < 0 ? 0 : vel;
+
+	if (bala->enAire)
+		bala->update();
+	else
+		bala->posActual.z = -30;		//Se oculta el objeto debajo del escenario
 
 	glutPostRedisplay();
 	glutTimerFunc(15, updateWrapper, 0);
