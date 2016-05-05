@@ -49,12 +49,11 @@ void display() {
 		}
 	}
 
-	/*
-	for (auto it = (mapa->objetosDestruibles.begin()); it != mapa->objetosDestruibles.end();) {
-		if (glCallback::testColision(bala, it))
-			it = mapa->objetosDestruibles.erase(it);
+	for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
+		if (glCallback::testColision(tanque, mapa->objetosDestruibles.at(i)))
+			mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
 	}
-	*/
+	
 
 	glutSwapBuffers();
 }
