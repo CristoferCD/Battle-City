@@ -37,7 +37,7 @@ public:
 
 	void dibujar() {
 		glPushMatrix();
-		glColor3f(1, 0, 0);
+		glColor3f(0, 0, 1);
 		glBegin(GL_QUADS);
 		glVertex3f(c.x - r.x, c.y - r.y, c.z);
 		glVertex3f(c.x + r.x, c.y - r.y, c.z);

@@ -37,6 +37,7 @@ void display() {
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
 	tanque->dibujar();
+	glColor3f(1, 0, 0);
 	//TODO vector de objetos para dibujar proyectiles
 	//TODO override dibujar para incluir la comprobación
 	if (tanque->bala->enAire)
@@ -45,11 +46,13 @@ void display() {
 	for each (Objeto *var in mapa->objetosDestruibles) {
 		if (glCallback::testColision(tanque, var)) {
 			tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
+			tanque->colision = true;
 		}
 	}
 	for each (Objeto *var in mapa->objetosEstaticos) {
 		if (glCallback::testColision(tanque, var)) {
 			tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
+			tanque->colision = true;
 		}
 	}
 	if(tanque->bala->enAire)

@@ -72,33 +72,35 @@ void glCallback::camara(camaras i)
 
 void glCallback::teclado(unsigned char c, int x, int y)
 {
-	switch (c) {
-	case 'w':
-		if (tanque->rotacion != 90) tanque->rotacion = 90;
-		tanque->vel += tanque->aceleracion;
-		break;
-	case 'a':
-		if (tanque->rotacion != 180) tanque->rotacion = 180;
-		tanque->vel += tanque->aceleracion;
-		break;
-	case 's':
-		if (tanque->rotacion != 270) tanque->rotacion = 270;
-		tanque->vel += tanque->aceleracion;
-		break;
-	case 'd':
-		if (tanque->rotacion != 0) tanque->rotacion = 0;
-		tanque->vel += tanque->aceleracion;
-		break;
-	case 'j':
-		tanque->disparar();
-		break;
-	default:
-		break;
+	if (!tanque->colision) {
+		switch (c) {
+		case 'w':
+			if (tanque->rotacion != 90) tanque->rotacion = 90;
+			tanque->vel += tanque->aceleracion;
+			break;
+		case 'a':
+			if (tanque->rotacion != 180) tanque->rotacion = 180;
+			tanque->vel += tanque->aceleracion;
+			break;
+		case 's':
+			if (tanque->rotacion != 270) tanque->rotacion = 270;
+			tanque->vel += tanque->aceleracion;
+			break;
+		case 'd':
+			if (tanque->rotacion != 0) tanque->rotacion = 0;
+			tanque->vel += tanque->aceleracion;
+			break;
+		case 'j':
+			tanque->disparar();
+			break;
+		default:
+			break;
+		}
+
+		tanque->vel = tanque->vel > tanque->velMaxima ? tanque->velMaxima : tanque->vel;	//Velocidad máxima
+
+		glutPostRedisplay();
 	}
-
-	tanque->vel = tanque->vel > tanque->velMaxima ? tanque->velMaxima : tanque->vel;	//Velocidad máxima
-
-	glutPostRedisplay();
 }
 
 void glCallback::tecladoUp(unsigned char key, int x, int y)
@@ -109,7 +111,8 @@ void glCallback::tecladoUp(unsigned char key, int x, int y)
 	case 'a':
 	case 's':
 	case 'd':
-		tanque->vel = 0;
+		tanque->vel = tanque->colision ? -tanque->aceleracion : 0;
+		tanque->colision = false;
 		break;
 	case 'c':
 		switch (camaraActual)

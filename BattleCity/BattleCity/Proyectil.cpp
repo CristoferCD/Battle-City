@@ -23,6 +23,7 @@ void Proyectil::update()
 	this->boundingBox.c = posActual;
 
 	dibujar();
+	boundingBox.dibujar();
 
 	glutPostRedisplay();
 }

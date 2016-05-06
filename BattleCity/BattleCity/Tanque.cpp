@@ -18,7 +18,7 @@ Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int 
 	cubo();
 	glEndList();
 
-	bala = new Proyectil(listBala, punto(0.6, 0.6, 0.6), Posicion, punto(1, 1, 1), 0);
+	bala = new Proyectil(listBala, punto(1, 1, 1), Posicion, punto(1, 1, 1), 0);
 
 	instanciaTanque = this;
 }
@@ -57,28 +57,28 @@ void Tanque::disparar()
 		switch (rotacion)
 		{
 		case 0:
-			bala->aceleracionX = 1;			//La bala se mueve hacia la derecha
+			bala->aceleracionX = 2;			//La bala se mueve hacia la derecha
 			bala->aceleracionY = 0;
 			bala->posActual = posActual;	//Se dispara desde el tanque
-			bala->posActual.x += 1;			//Con un desfase en función de a donde se apunta
+			bala->posActual.x += 2;			//Con un desfase en función de a donde se apunta
 			break;
 		case 90:
-			bala->aceleracionY = 1;
+			bala->aceleracionY = 2;
 			bala->aceleracionX = 0;
 			bala->posActual = posActual;
-			bala->posActual.y += 1;
+			bala->posActual.y += 2;
 			break;
 		case 180:
-			bala->aceleracionX = -1;
+			bala->aceleracionX = -2;
 			bala->aceleracionY = 0;
 			bala->posActual = posActual;
-			bala->posActual.x -= 1;
+			bala->posActual.x -= 2;
 			break;
 		case 270:
-			bala->aceleracionY = -1;
+			bala->aceleracionY = -2;
 			bala->aceleracionX = 0;
 			bala->posActual = posActual;
-			bala->posActual.y -= 1;
+			bala->posActual.y -= 2;
 			break;
 		default:
 			break;
