@@ -43,6 +43,8 @@ void display() {
 	if (tanque->bala->enAire)
 		tanque->bala->dibujar();
 
+
+	//Colisiones de tanque
 	for each (Objeto *var in mapa->objetosDestruibles) {
 		if (glCallback::testColision(tanque, var)) {
 			tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
@@ -55,14 +57,22 @@ void display() {
 			tanque->colision = true;
 		}
 	}
-	if(tanque->bala->enAire)
+	//Colisiones de bala
+	if (tanque->bala->enAire) {
 		for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
 			if (glCallback::testColision(tanque->bala, mapa->objetosDestruibles.at(i))) {
 				mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
 				tanque->bala->enAire = false;
-				//Tanque -> disparosRealizados--;
+				tanque->disparosRealizados--;
 			}
 		}
+		for (int i = 0; i < mapa->objetosEstaticos.size(); i++) {
+			if (glCallback::testColision(tanque->bala, mapa->objetosEstaticos.at(i))) {
+				tanque->bala->enAire = false;
+				tanque->disparosRealizados--;
+			}
+		}
+	}
 	
 
 	glutSwapBuffers();

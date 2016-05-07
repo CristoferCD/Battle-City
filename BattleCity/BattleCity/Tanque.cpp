@@ -50,7 +50,7 @@ void Tanque::updateWrapper(int)
 
 void Tanque::disparar()
 {
-	//if (/*balas.size() > 0*/) {		//TOOD: hacer un array de balas para que esto funcione
+	if (cadenciaDisparo > disparosRealizados) {		
 		bala->enAire = true;
 		bala->posActual.z = 10;
 		bala->update();				//Se fuerza la primera actualización
@@ -84,7 +84,7 @@ void Tanque::disparar()
 			break;
 		}
 		disparosRealizados++;
-	//}
+	}
 }
 
 void Tanque::update()
