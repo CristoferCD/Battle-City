@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="figuras.cpp" />
     <ClCompile Include="glCallback.cpp" />
     <ClCompile Include="glm.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="auxiliares.h" />
+    <ClInclude Include="Enemigo.h" />
     <ClInclude Include="figuras.h" />
     <ClInclude Include="glCallback.h" />
     <ClInclude Include="Mapa.h" />

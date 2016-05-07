@@ -4,31 +4,28 @@
 #include "Objeto.h"
 #include "Proyectil.h"
 
-class Tanque;
-static Tanque *instanciaTanque;
-
-class Tanque : public Objeto
+class Tanque : 
+	public Objeto
 {
 public:
 	GLfloat vel = 0.0f;	//Velocidad del coche en función de los ejes
 	int rotacion;
-	float aceleracion;
+	float aceleracion; 
 	int velMaxima;	
 	Proyectil *bala;
-	bool colision;		//Indica si está en contacto con algún objeto
+	bool enColision;		//Indica si está en contacto con algún objeto
 	int disparosRealizados;		//Número de proyectiles actualmente en tránsito
 
 	Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima = 1, float aceleracion = 0.5f, int cadenciaDisparo = 1);
 	~Tanque();
 	
 	void dibujar() override;
-	static void updateWrapper(int);
+	void update();
 	void disparar();
 
 private:
 	int cadenciaDisparo;		//Número de proyectiles simultáneos puede disparar
 
-	void update();
 };
 
 extern "C" {

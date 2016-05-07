@@ -8,6 +8,8 @@ using namespace std;
 
 Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 {
+	this->tileSize = tileSize;
+
 	std::ifstream inFile;
 	char idObjeto;
 	inFile.open(rutaMapa);
@@ -130,4 +132,10 @@ void Mapa::dibujar()
 	{
 		var->dibujar();
 	}
+}
+
+punto Mapa::getPosicion(punto coordRelativas)
+{
+	return punto(coordRelativas.x * tileSize *2,
+				 coordRelativas.y * tileSize *2, coordRelativas.z);
 }

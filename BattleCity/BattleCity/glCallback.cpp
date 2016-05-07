@@ -72,7 +72,7 @@ void glCallback::camara(camaras i)
 
 void glCallback::teclado(unsigned char c, int x, int y)
 {
-	if (!tanque->colision) {
+	if (!tanque->enColision) {
 		switch (c) {
 		case 'w':
 			if (tanque->rotacion != 90) tanque->rotacion = 90;
@@ -111,8 +111,8 @@ void glCallback::tecladoUp(unsigned char key, int x, int y)
 	case 'a':
 	case 's':
 	case 'd':
-		tanque->vel = tanque->colision ? -tanque->aceleracion : 0;
-		tanque->colision = false;
+		tanque->vel = tanque->enColision ? -tanque->aceleracion : 0;
+		tanque->enColision = false;
 		break;
 	case 'c':
 		switch (camaraActual)
@@ -143,7 +143,7 @@ void glCallback::cam1persona()
 	objetivo.x = tanque->posActual.x + cos(tanque->rotacion*M_PI / 180)*60.0;
 	objetivo.y = tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*60.0;
 	objetivo.z = tanque->posActual.z;
-	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 1000.0);
+	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 800.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(tanque->posActual.x + cos(tanque->rotacion*M_PI / 180) * 10, tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*10.0, 30,
@@ -158,7 +158,7 @@ void glCallback::cam3persona()
 	objetivo.x = tanque->posActual.x;
 	objetivo.y = tanque->posActual.y + 80.0;
 	objetivo.z = tanque->posActual.z;
-	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 1000.0);
+	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 800.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(tanque->posActual.x, tanque->posActual.y - 50.0, 50, objetivo.x, objetivo.y, objetivo.z, 0, 0, 1);
@@ -168,7 +168,7 @@ void glCallback::camDrone()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, (GLdouble)this->width / this->height, 1.0, 1000.0);
+	gluPerspective(60.0, (GLdouble)this->width / this->height, 1.0, 100.0);
 	//glOrtho(-100.0f, 100.0f, -100.0f, 100.0f, 0.0, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

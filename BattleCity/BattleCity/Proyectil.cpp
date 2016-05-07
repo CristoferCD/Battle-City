@@ -27,3 +27,15 @@ void Proyectil::update()
 
 	glutPostRedisplay();
 }
+
+void Proyectil::dibujar()
+{
+	if (enAire && idLista) {
+		glPushMatrix();
+		glTranslatef(posActual.x, posActual.y, posActual.z);
+		glScalef(escala.x, escala.y, escala.z);
+		glBindTexture(GL_TEXTURE_2D, textura);
+		glCallList(idLista);
+		glPopMatrix();
+	}
+}

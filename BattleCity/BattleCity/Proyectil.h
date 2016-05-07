@@ -1,7 +1,8 @@
 #pragma once
 #include "Objeto.h"
 
-class Proyectil : public Objeto
+class Proyectil : 
+	public Objeto
 {
 public:
 	int aceleracionX;
@@ -12,5 +13,6 @@ public:
 	~Proyectil();
 
 	void update();
+	void dibujar() override;
 };
 

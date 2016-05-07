@@ -8,7 +8,7 @@ Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int 
 {
 	this->velMaxima = velMaxima;
 	this->aceleracion = aceleracion;
-	rotacion = 90;
+	rotacion = 270;
 	//Hacer un vector de balas de este tamaño
 	this->cadenciaDisparo = cadenciaDisparo;
 
@@ -19,8 +19,6 @@ Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int 
 	glEndList();
 
 	bala = new Proyectil(listBala, punto(1, 1, 1), Posicion, punto(1, 1, 1), 0);
-
-	instanciaTanque = this;
 }
 
 
@@ -41,11 +39,7 @@ void Tanque::dibujar()
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glCallList(idLista);
 	glPopMatrix();
-}
-
-void Tanque::updateWrapper(int)
-{
-	instanciaTanque->update();
+	bala->dibujar();
 }
 
 void Tanque::disparar()
@@ -117,7 +111,6 @@ void Tanque::update()
 		bala->posActual.z = -30;		//Se oculta el objeto debajo del escenario
 
 	glutPostRedisplay();
-	glutTimerFunc(15, updateWrapper, 0);
 }
 
 GLMmodel * readOBJ(const char * obj)
