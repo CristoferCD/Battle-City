@@ -14,18 +14,13 @@ public:
 	int velMaxima;	
 	Proyectil *bala;
 	bool enColision;		//Indica si está en contacto con algún objeto
-	int disparosRealizados;		//Número de proyectiles actualmente en tránsito
 
-	Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima = 1, float aceleracion = 0.5f, int cadenciaDisparo = 1);
+	Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima = 1, float aceleracion = 0.5f);
 	~Tanque();
 	
 	void dibujar() override;
 	void update();
 	void disparar();
-
-private:
-	int cadenciaDisparo;		//Número de proyectiles simultáneos puede disparar
-
 };
 
 extern "C" {

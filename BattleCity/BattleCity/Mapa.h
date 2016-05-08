@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <mutex>
 #include "Objeto.h"
 
 #define VACIO '0' 
@@ -21,6 +22,8 @@ public:
 	std::vector <Objeto*> objetosEstaticos;			//Paran las balas y no atravesables.
 	std::vector <Objeto*> objetosNoDestruibles;		//Inmunes a las balas (atraviesan) y atravesables.
 	std::vector <Objeto*> testLimites; 
+	std::mutex mtx;
+
 private:
 	int tileSize;
 };

@@ -3,8 +3,8 @@
 
 
 
-Enemigo::Enemigo(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion, int cadenciaDisparo) :
-	Tanque(Modelo, rutaTextura, Posicion, velMaxima, aceleracion, cadenciaDisparo)
+Enemigo::Enemigo(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion) :
+	Tanque(Modelo, rutaTextura, Posicion, velMaxima, aceleracion)
 {
 }
 
@@ -18,7 +18,7 @@ void Enemigo::colision()
 	int rotaciones[4] = { 0,90,180,270 };
 	static int i = 0;
 	this->rotacion = rotaciones[i];
-	this->vel += aceleracion;
+	this->vel = this->vel != 0 ? 0 : -1;
 	i = (i + time(NULL)) % 4;
 	//Por culpa de glut no puedo incluir cstdlib para usar un rand.
 }

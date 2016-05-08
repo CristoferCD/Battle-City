@@ -1,16 +1,16 @@
 #include "Tanque.h"
 #include "figuras.h"
 #include <math.h>
+#include <cstdio>
 
 
-Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion, int cadenciaDisparo)
+Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion)
 	: Objeto(glmList(readOBJ((char*)Modelo), GLM_SMOOTH | GLM_TEXTURE), punto(1, 1, 1), Posicion, punto(2, 2, 2), rutaTextura)
 {
 	this->velMaxima = velMaxima;
 	this->aceleracion = aceleracion;
 	rotacion = 270;
 	//Hacer un vector de balas de este tamaño
-	this->cadenciaDisparo = cadenciaDisparo;
 
 	int listBala = glGenLists(1);
 	glNewList(listBala, GL_COMPILE);
@@ -44,40 +44,39 @@ void Tanque::dibujar()
 
 void Tanque::disparar()
 {
-	if (cadenciaDisparo > disparosRealizados) {		
+	if (!bala->enAire) {		
 		bala->enAire = true;
 		bala->posActual.z = 10;
 		bala->update();				//Se fuerza la primera actualización
 		switch (rotacion)
 		{
 		case 0:
-			bala->aceleracionX = 2;			//La bala se mueve hacia la derecha
+			bala->aceleracionX = 1.2;			//La bala se mueve hacia la derecha
 			bala->aceleracionY = 0;
 			bala->posActual = posActual;	//Se dispara desde el tanque
-			bala->posActual.x += 2;			//Con un desfase en función de a donde se apunta
+			bala->posActual.x += 1.2;			//Con un desfase en función de a donde se apunta
 			break;
 		case 90:
-			bala->aceleracionY = 2;
+			bala->aceleracionY = 1.2;
 			bala->aceleracionX = 0;
 			bala->posActual = posActual;
 			bala->posActual.y += 2;
 			break;
 		case 180:
-			bala->aceleracionX = -2;
+			bala->aceleracionX = -1.2;
 			bala->aceleracionY = 0;
 			bala->posActual = posActual;
-			bala->posActual.x -= 2;
+			bala->posActual.x -= 1.2;
 			break;
 		case 270:
-			bala->aceleracionY = -2;
+			bala->aceleracionY = -1.2;
 			bala->aceleracionX = 0;
 			bala->posActual = posActual;
-			bala->posActual.y -= 2;
+			bala->posActual.y -= 1.2;
 			break;
 		default:
 			break;
 		}
-		disparosRealizados++;
 	}
 }
 

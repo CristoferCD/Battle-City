@@ -106,7 +106,7 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 	for (i = 0; i <= numTiles; i++) {
 		objetosEstaticos.push_back(new Objeto(0, punto(1, 1, 1), punto((i-1)*tileSize * 2, (numTiles+1)*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize *1.5), (GLuint)0));
 		objetosEstaticos.push_back(new Objeto(0, punto(1, 1, 1), punto(i*tileSize * 2, 0.5, tileSize * 2), punto(tileSize, tileSize, tileSize *1.5), (GLuint)0));
-		objetosEstaticos.push_back(new Objeto(0, punto(1, 1, 1), punto((numTiles-0.5)*tileSize * 2, (i+0.5)*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize *1.5), (GLuint)0));
+		objetosEstaticos.push_back(new Objeto(0, punto(1, 1, 1), punto((numTiles)*tileSize * 2, (i+0.5)*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize *1.5), (GLuint)0));
 		objetosEstaticos.push_back(new Objeto(0, punto(1, 1, 1), punto(-tileSize*2, i*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize *1.5), (GLuint) 0));
 	}
 #pragma endregion
@@ -130,6 +130,7 @@ Mapa::~Mapa()
 
 void Mapa::dibujar()
 {
+	mtx.lock();
 	for each (Objeto *var in objetosDestruibles)
 	{
 		var->dibujar();
@@ -143,6 +144,7 @@ void Mapa::dibujar()
 	{
 		var->dibujar();
 	}
+	mtx.unlock();
 }
 
 punto Mapa::getPosicion(punto coordRelativas)
