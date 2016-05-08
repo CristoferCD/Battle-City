@@ -35,16 +35,16 @@ void cargarLuces() {
 		ene->update();
 		ene->IA();
 	}
-	glutTimerFunc(15, moveUpdate, 0);
+	glutTimerFunc(10, moveUpdate, 0);
 }
 
 void initComponents() {
-	tanque = new Tanque("models\\MainTank.obj", "", punto(0, 10, 2));
 	mapa = new Mapa("mapas\\nivel1.map");
+	tanque = new Tanque("models\\MainTank.obj", "", mapa->getPosicion(punto(3, 1, 2)));
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
-	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(0, 26, 2)), 1, 0.6));
-	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(13, 26, 2)), 1, 0.6));
-	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(25, 26, 2)), 1, 0.6));
+	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(0.5, 25.5, 2)), 1, 0.6));
+	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(12.5, 25.5, 2)), 1, 0.6));
+	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(24, 25.5, 2)), 1, 0.6));
 }
 
 void display() {
@@ -54,12 +54,11 @@ void display() {
 
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
-	tanque->dibujar();	
+	tanque->dibujar();
 	for each (Enemigo *ene in enemigos)
 	{
 		ene->dibujar();
 	}
-
 
 	//Colisiones de tanque
 	for each (Objeto *var in mapa->objetosDestruibles) {

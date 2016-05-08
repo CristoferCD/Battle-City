@@ -1,19 +1,16 @@
 #include "Objeto.h"
 #include "glCallback.h"
-#include <cstdio>
 
 void Objeto::dibujar()
 {
 	if (idLista) {
 		glPushMatrix();
+		glColor3f(1, 1, 1);
 		glTranslatef(posActual.x, posActual.y, posActual.z);
 		glScalef(escala.x, escala.y, escala.z);
 		glBindTexture(GL_TEXTURE_2D, textura);
 		glCallList(idLista);
 		glPopMatrix();
-	}
-	else {
-		printf("Error en lista\n");
 	}
 }
 
