@@ -18,7 +18,7 @@ void Enemigo::colision()
 	int rotaciones[4] = { 0,90,180,270 };
 	static int i = 0;
 	this->rotacion = rotaciones[i];
-	this->vel = this->vel != 0 ? 0 : -1;
+	this->vel = this->vel != 0 ? 0 : -2;
 	i = (i + time(NULL)) % 4;
 	//Por culpa de glut no puedo incluir cstdlib para usar un rand.
 }
@@ -27,8 +27,10 @@ void Enemigo::IA()
 {
 	if(!enColision) {
 		vel += aceleracion;
-
 		vel = vel > velMaxima ? velMaxima : vel;	//Velocidad máxima
+	}
+	else {
+		colision();
 	}
 	if(!bala->enAire)
 		this->disparar();

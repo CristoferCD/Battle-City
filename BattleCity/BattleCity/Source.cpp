@@ -36,8 +36,9 @@ void cargarLuces() {
 
 	for each (Enemigo* ene in enemigos)
 	{
-		ene->update();
 		ene->IA();
+		ene->update();
+		ene->enColision = false;	//Se supone que la IA corrige la direccion y el update lo mueve fuera de la colisión
 	}
 	glutTimerFunc(15, moveUpdate, 0);
 }
@@ -52,7 +53,7 @@ void cargarLuces() {
 			 }
 			 for each (Enemigo *ene in enemigos)
 				 if (glCallback::testColision(ene, var))
-					 ene->colision();
+					 ene->enColision = true;
 		 }
 		 for each (Objeto *var in mapa->objetosEstaticos) {
 			 if (glCallback::testColision(tanque, var)) {
@@ -61,7 +62,7 @@ void cargarLuces() {
 			 }
 			 for each (Enemigo *ene in enemigos)
 				 if (glCallback::testColision(ene, var))
-					 ene->colision();
+					 ene->enColision = true;
 		 }
 		 //Colisiones de bala
 		 for (auto it = mapa->objetosDestruibles.begin(); it != mapa->objetosDestruibles.end(); it++) {
@@ -118,6 +119,7 @@ void display() {
 	for each (Enemigo *ene in enemigos)
 	{
 		ene->dibujar();
+		ene->boundingBox.dibujar();
 	}
 	
 	glutSwapBuffers();

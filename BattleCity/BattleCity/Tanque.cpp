@@ -5,7 +5,7 @@
 
 
 Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion)
-	: Objeto(glmList(readOBJ((char*)Modelo), GLM_SMOOTH | GLM_TEXTURE), punto(1, 1, 1), Posicion, punto(2, 2, 2), rutaTextura)
+	: Objeto(glmList(readOBJ((char*)Modelo), GLM_SMOOTH | GLM_TEXTURE), punto(.8, .8, .8), Posicion, punto(2, 2, 2), rutaTextura)
 {
 	this->velMaxima = velMaxima;
 	this->aceleracion = aceleracion;
