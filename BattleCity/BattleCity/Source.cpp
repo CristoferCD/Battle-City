@@ -78,6 +78,22 @@ void cargarLuces() {
 				 }	
 			 }
 		 }
+		 //Colisiones de tanque con Objetos no Destruibles
+		 for each (Objeto *var in mapa->objetosNoDestruibles) {
+			 if (glCallback::testColision(tanque, var)) {
+				 tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
+				 tanque->enColision = true;
+			 }
+			 //Colisiones de enemigos con Objetos no Destruibles
+			 for each (Enemigo *ene in enemigos) {
+				 if (glCallback::testColision(ene, var)) {
+					 do {
+						 ene->retroceder();
+					 } while (glCallback::testColision(ene, var));
+					 ene->cambiarDireccion();
+				 }
+			 }
+		 }
 		 //Colisiones de balas con Objetos Destruibles
 		 for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
 			 if (glCallback::testColision(tanque->bala, mapa->objetosDestruibles[i])) {
@@ -120,6 +136,7 @@ void cargarLuces() {
 				 enemigos.erase(enemigos.begin() + i);
 				 mtxEne.unlock();
 				 tanque->bala->enAire = false;
+				 break;
 			 }
 		 }
 		 //Colisiones entre balas enemigas y propias, las enemigas se atraviesan entre si
@@ -127,6 +144,7 @@ void cargarLuces() {
 			 if (glCallback::testColision(ene->bala, tanque->bala)) {
 				 ene->bala->enAire = false;
 				 tanque->bala->enAire = false;
+				 break;
 			 }
 		 }
 		 //Colisiones entre balas enemigas y el jugador
@@ -141,7 +159,7 @@ void cargarLuces() {
  }
 
 void initComponents() {
-	mapa = new Mapa("mapas\\nivel1.map");
+	mapa = new Mapa("mapas\\nivel2.map");
 	tanque = new Tanque("models\\MainTank.obj", "", mapa->getPosicion(punto(3, 1, 2)));
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
 	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(0.5, 25.5, 2)), 1, 0.3));

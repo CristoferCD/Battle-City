@@ -42,10 +42,10 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 		if (!textVacio) {
 			Objeto *cubo = new Objeto(listaCubo, punto(1,1,1), punto(i*tileSize * 2, j*tileSize * 2, 0.0f), punto(tileSize, tileSize, 1), "textures\\suelo.jpg");
 			textVacio = cubo->getTextura();
-			objetosNoDestruibles.push_back(cubo);
+			objetosAtravesables.push_back(cubo);
 		}
 		else {
-			objetosNoDestruibles.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, 0.0f), punto(tileSize, tileSize, 1), textVacio));
+			objetosAtravesables.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, 0.0f), punto(tileSize, tileSize, 1), textVacio));
 		}
 		#pragma endregion
 		#pragma region Objetos
@@ -75,20 +75,20 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 			if (!textArbusto) {
 				Objeto *cubo = new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize * 1.5), "textures\\arbusto.jpg");
 				textArbusto = cubo->getTextura();
-				objetosNoDestruibles.push_back(cubo);
+				objetosAtravesables.push_back(cubo);
 			}
 			else {
-				objetosNoDestruibles.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize * 1.5), textArbusto));
+				objetosAtravesables.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize * 1.5), textArbusto));
 			}
 			break;
 		case AGUA:
 			if (!textAgua) {
-				Objeto *cubo = new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize * 1.5), "textures\\agua.jpg");
+				Objeto *cubo = new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, 0.0f), punto(tileSize, tileSize, 1), "textures\\agua.jpg");
 				textAgua = cubo->getTextura();
 				objetosNoDestruibles.push_back(cubo);
 			}
 			else {
-				objetosNoDestruibles.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize * 1.5), textAgua));
+				objetosNoDestruibles.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, 0.0f), punto(tileSize, tileSize, 1), textAgua));
 			}
 			break;
 		default:
@@ -141,6 +141,9 @@ void Mapa::dibujar()
 	}
 	for each (Objeto *var in objetosNoDestruibles)
 	{
+		var->dibujar();
+	}
+	for each (Objeto *var in objetosAtravesables) {
 		var->dibujar();
 	}
 	mtx.unlock();
