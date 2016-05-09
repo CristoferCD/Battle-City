@@ -6,6 +6,7 @@ Proyecto Final CoGa - Battle City
 
 #include <vector>
 #include <iostream>
+#include <mutex>
 #include <GL\glut.h>
 #include <GL\SOIL.h>
 #include <thread>
@@ -23,6 +24,8 @@ Mapa *mapa;
 Tanque *tanque;
 glCallback *callback;
 thread physics;
+mutex mtxEne;		//Mutex para el vector de enemigos
+int golpeado = 0;	//Indica el número de frames durante los que la niebla estará roja
 
 vector <Proyectil*> balas;
 vector <Enemigo*> enemigos;
@@ -43,12 +46,13 @@ void cargarLuces() {
 
  void colisiones() {
 	 while (1) {
-		 //Colisiones de tanque
+		 //Colisiones de tanque con Objetos Destruibles
 		 for each (Objeto *var in mapa->objetosDestruibles) {
 			 if (glCallback::testColision(tanque, var)) {
 				 tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
 				 tanque->enColision = true;
 			 }
+			 //Colisiones de enemigos con Objetos Destruibles
 			 for each (Enemigo *ene in enemigos) {
 				 if (glCallback::testColision(ene, var)) {
 					 do {
@@ -58,11 +62,13 @@ void cargarLuces() {
 				 }
 			 }
 		 }
+		 //Colisiones de tanque con Objetos Estáticos
 		 for each (Objeto *var in mapa->objetosEstaticos) {
 			 if (glCallback::testColision(tanque, var)) {
 				 tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
 				 tanque->enColision = true;
 			 }
+			 //Colisiones de enemigos con Objetos Estáticos
 			 for each (Enemigo *ene in enemigos) {
 				 if (glCallback::testColision(ene, var)) {
 					 do {
@@ -72,7 +78,7 @@ void cargarLuces() {
 				 }	
 			 }
 		 }
-		 //Colisiones de bala
+		 //Colisiones de balas con Objetos Destruibles
 		 for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
 			 if (glCallback::testColision(tanque->bala, mapa->objetosDestruibles[i])) {
 				 mapa->mtx.lock();
@@ -81,6 +87,7 @@ void cargarLuces() {
 				 tanque->bala->enAire = false;
 			 }
 			 else {
+				 //Balas de enemigos
 				 for each (Enemigo* ene in enemigos)
 				 {
 					 if (glCallback::testColision(ene->bala, mapa->objetosDestruibles[i])) {
@@ -93,10 +100,12 @@ void cargarLuces() {
 				 }
 			 }
 		 }
+		 //Colisiones de balas con Objetos Estáticos
 		 for (auto it = mapa->objetosEstaticos.begin(); it != mapa->objetosEstaticos.end(); it++) {
 			 if (glCallback::testColision(tanque->bala, *it)) {
 				 tanque->bala->enAire = false;
 			 }
+			 //Balas de enemigos
 			 for each (Enemigo* ene in enemigos)
 			 {
 				 if (glCallback::testColision(ene->bala, *it)) {
@@ -104,7 +113,30 @@ void cargarLuces() {
 				 }
 			 }
 		 }
-		 this_thread::sleep_for(chrono::milliseconds(15));
+		 //Colisiones de bala propia con enemigos
+		 for (int i = 0; i < enemigos.size(); i++) {
+			 if (glCallback::testColision(tanque->bala, enemigos[i])) {
+				 mtxEne.lock();
+				 enemigos.erase(enemigos.begin() + i);
+				 mtxEne.unlock();
+				 tanque->bala->enAire = false;
+			 }
+		 }
+		 //Colisiones entre balas enemigas y propias, las enemigas se atraviesan entre si
+		 for each(Enemigo *ene in enemigos) {
+			 if (glCallback::testColision(ene->bala, tanque->bala)) {
+				 ene->bala->enAire = false;
+				 tanque->bala->enAire = false;
+			 }
+		 }
+		 //Colisiones entre balas enemigas y el jugador
+		 for each (Enemigo *ene in enemigos) {
+			 if (glCallback::testColision(ene->bala, tanque)) {
+				 ene->bala->enAire = false;
+				 golpeado = 20;
+			 }
+		 }
+		 this_thread::sleep_for(chrono::milliseconds(5));
 	 }
  }
 
@@ -126,12 +158,14 @@ void display() {
 	mapa->dibujar();
 	tanque->dibujar();
 	tanque->boundingBox.dibujar();
+
+	mtxEne.lock();
 	for each (Enemigo *ene in enemigos)
 	{
 		ene->dibujar();
-		ene->boundingBox.dibujar();
 	}
-	
+	mtxEne.unlock();
+
 	glutSwapBuffers();
 }
 
