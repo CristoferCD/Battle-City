@@ -31,7 +31,9 @@ vector <Proyectil*> balas;
 vector <Enemigo*> enemigos;
 
 void cargarLuces() {
-
+	glFogf(GL_FOG_MODE, GL_LINEAR);	
+	glFogf(GL_FOG_START, 30);
+	glFogf(GL_FOG_END, 300);
 }
 
  void moveUpdate(int a) {
@@ -151,7 +153,7 @@ void cargarLuces() {
 		 for each (Enemigo *ene in enemigos) {
 			 if (glCallback::testColision(ene->bala, tanque)) {
 				 ene->bala->enAire = false;
-				 golpeado = 20;
+				 golpeado = 100;
 			 }
 		 }
 		 this_thread::sleep_for(chrono::milliseconds(5));
@@ -165,6 +167,7 @@ void initComponents() {
 	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(0.5, 25.5, 2)), 1, 0.3));
 	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(12.5, 25.5, 2)), 1, 0.3));
 	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(24, 25.5, 2)), 1, 0.3));
+	cargarLuces();
 }
 
 void display() {
@@ -183,6 +186,17 @@ void display() {
 		ene->dibujar();
 	}
 	mtxEne.unlock();
+
+	if ((golpeado - 1) <= 0) {
+		GLfloat fogColor[] = { 1.0f,1.0f,1.0f,1.0f };
+		glFogfv(GL_FOG_COLOR, fogColor);
+	}
+	else {
+		GLfloat fogColor[] = { 0.6f,0.2f,0.2f, 1.0f };
+		glFogfv(GL_FOG_COLOR, fogColor);
+	}
+	glFogf(GL_FOG_DENSITY, golpeado/100.0f+.001);
+	golpeado = golpeado < 0 ? 0 : golpeado - 1;
 
 	glutSwapBuffers();
 }
@@ -210,8 +224,7 @@ int main(int argc, char **argv) {
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_CULL_FACE);
-	//glEnable(GL_FOG);
+	glEnable(GL_FOG);
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_LIGHT0);
 	//glShadeModel(GL_SMOOTH);
