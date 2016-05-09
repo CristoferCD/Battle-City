@@ -62,9 +62,6 @@
     <ClInclude Include="Tanque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Proyectil.h">
       <Filter>Header Files</Filter>
     </ClInclude>

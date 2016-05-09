@@ -37,8 +37,6 @@ void cargarLuces() {
 	for each (Enemigo* ene in enemigos)
 	{
 		ene->IA();
-		ene->update();
-		ene->enColision = false;	//Se supone que la IA corrige la direccion y el update lo mueve fuera de la colisión
 	}
 	glutTimerFunc(15, moveUpdate, 0);
 }
@@ -51,36 +49,47 @@ void cargarLuces() {
 				 tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
 				 tanque->enColision = true;
 			 }
-			 for each (Enemigo *ene in enemigos)
-				 if (glCallback::testColision(ene, var))
-					 ene->enColision = true;
+			 for each (Enemigo *ene in enemigos) {
+				 if (glCallback::testColision(ene, var)) {
+					 do {
+						 ene->retroceder();
+					 } while (glCallback::testColision(ene, var));
+					 ene->cambiarDireccion();
+				 }
+			 }
 		 }
 		 for each (Objeto *var in mapa->objetosEstaticos) {
 			 if (glCallback::testColision(tanque, var)) {
 				 tanque->vel = tanque->vel != 0 ? 0 : -tanque->aceleracion;
 				 tanque->enColision = true;
 			 }
-			 for each (Enemigo *ene in enemigos)
-				 if (glCallback::testColision(ene, var))
-					 ene->enColision = true;
+			 for each (Enemigo *ene in enemigos) {
+				 if (glCallback::testColision(ene, var)) {
+					 do {
+						 ene->retroceder();
+					 } while (glCallback::testColision(ene, var));
+					 ene->cambiarDireccion();
+				 }	
+			 }
 		 }
 		 //Colisiones de bala
-		 for (auto it = mapa->objetosDestruibles.begin(); it != mapa->objetosDestruibles.end(); it++) {
-			 if (glCallback::testColision(tanque->bala, *it)) {
+		 for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
+			 if (glCallback::testColision(tanque->bala, mapa->objetosDestruibles[i])) {
 				 mapa->mtx.lock();
-				 mapa->objetosDestruibles.erase(it); 
+				 mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
 				 mapa->mtx.unlock();
-				 if(it != mapa->objetosDestruibles.begin()) it = prev(it);
 				 tanque->bala->enAire = false;
 			 }
-			 for each (Enemigo* ene in enemigos)
-			 {
-				 if (glCallback::testColision(ene->bala, *it)) {
-					 mapa->mtx.lock();
-					 mapa->objetosDestruibles.erase(it); 
-					 mapa->mtx.unlock();
-					 if(it != mapa->objetosDestruibles.begin()) it = prev(it);
-					 ene->bala->enAire = false;
+			 else {
+				 for each (Enemigo* ene in enemigos)
+				 {
+					 if (glCallback::testColision(ene->bala, mapa->objetosDestruibles[i])) {
+						 mapa->mtx.lock();
+						 mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
+						 mapa->mtx.unlock();
+						 ene->bala->enAire = false;
+						 break;	//No comprueba el resto de enemigos
+					 }
 				 }
 			 }
 		 }
@@ -95,7 +104,7 @@ void cargarLuces() {
 				 }
 			 }
 		 }
-		 this_thread::sleep_for(chrono::milliseconds(5));
+		 this_thread::sleep_for(chrono::milliseconds(15));
 	 }
  }
 
@@ -103,9 +112,9 @@ void initComponents() {
 	mapa = new Mapa("mapas\\nivel1.map");
 	tanque = new Tanque("models\\MainTank.obj", "", mapa->getPosicion(punto(3, 1, 2)));
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
-	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(0.5, 25.5, 2)), 1, 0.1));
-	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(12.5, 25.5, 2)), 1, 0.1));
-	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(24, 25.5, 2)), 1, 0.1));
+	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(0.5, 25.5, 2)), 1, 0.3));
+	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(12.5, 25.5, 2)), 1, 0.3));
+	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(24, 25.5, 2)), 1, 0.3));
 }
 
 void display() {
@@ -116,6 +125,7 @@ void display() {
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
 	tanque->dibujar();
+	tanque->boundingBox.dibujar();
 	for each (Enemigo *ene in enemigos)
 	{
 		ene->dibujar();

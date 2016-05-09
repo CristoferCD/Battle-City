@@ -117,14 +117,11 @@ void glCallback::tecladoUp(unsigned char key, int x, int y)
 	case 'c':
 		switch (camaraActual)
 		{
-		case glCallback::VIEW_1P:
+		case glCallback::VIEW_DRONE:
 			camaraActual = camaras::VIEW_3P;
 			break;
 		case glCallback::VIEW_3P:
 			camaraActual = camaras::VIEW_DRONE;
-			break;
-		case glCallback::VIEW_DRONE:
-			camaraActual = camaras::VIEW_1P;
 			break;
 		default:
 			break;

@@ -134,7 +134,6 @@ void Mapa::dibujar()
 	for each (Objeto *var in objetosDestruibles)
 	{
 		var->dibujar();
-		var->boundingBox.dibujar();
 	}
 	for each (Objeto *var in objetosEstaticos)
 	{

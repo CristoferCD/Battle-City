@@ -19,7 +19,7 @@ public:
 	~Tanque();
 	
 	void dibujar() override;
-	void update();
+	virtual void update();
 	void disparar();
 };
 

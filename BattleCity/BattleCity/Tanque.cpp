@@ -60,7 +60,7 @@ void Tanque::disparar()
 			bala->aceleracionY = 1.2;
 			bala->aceleracionX = 0;
 			bala->posActual = posActual;
-			bala->posActual.y += 2;
+			bala->posActual.y += 1.2;
 			break;
 		case 180:
 			bala->aceleracionX = -1.2;

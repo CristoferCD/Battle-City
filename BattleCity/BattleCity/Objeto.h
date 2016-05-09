@@ -1,6 +1,6 @@
 #pragma once
-#include <GL\glut.h>
 #include "auxiliares.h"
+#include <GL\glut.h>
 
 class Objeto
 {
