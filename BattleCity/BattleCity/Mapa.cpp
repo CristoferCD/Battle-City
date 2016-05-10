@@ -73,12 +73,12 @@ Mapa::Mapa(const char* rutaMapa, int tileSize, int numTiles)
 			break;
 		case ARBUSTO:
 			if (!textArbusto) {
-				Objeto *cubo = new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize * 1.5), "textures\\arbusto.jpg");
+				Objeto *cubo = new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize), punto(tileSize, tileSize, tileSize * 1.5), "textures\\arbusto.jpg");
 				textArbusto = cubo->getTextura();
 				objetosAtravesables.push_back(cubo);
 			}
 			else {
-				objetosAtravesables.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize * 2), punto(tileSize, tileSize, tileSize * 1.5), textArbusto));
+				objetosAtravesables.push_back(new Objeto(listaCubo, punto(1, 1, 1), punto(i*tileSize * 2, j*tileSize * 2, tileSize), punto(tileSize, tileSize, tileSize * 1.5), textArbusto));
 			}
 			break;
 		case AGUA:

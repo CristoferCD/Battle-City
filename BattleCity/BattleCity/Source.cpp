@@ -32,6 +32,29 @@ vector <Proyectil*> balas;
 vector <Enemigo*> enemigos;
 
 void cargarLuces() {
+	//Luz general
+	GLfloat Ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat Diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat Specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat SpecRef[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, Ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, Specular);
+
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, SpecRef);
+	glMateriali(GL_FRONT, GL_SHININESS, 100);
+
+	GLfloat AmbientB[] = { 0.1f, 0.1f, 0.1f, 0.0f };
+	GLfloat DiffuseB[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat SpecularB[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	glLightfv(GL_LIGHT1, GL_AMBIENT, Ambient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, Diffuse);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, Specular);
+
 	glFogf(GL_FOG_MODE, GL_LINEAR);	
 	glFogf(GL_FOG_START, 30);
 	glFogf(GL_FOG_END, 300);
@@ -105,6 +128,7 @@ void cargarLuces() {
 				 mapa->mtx.unlock();
 				 tanque->bala->enAire = false;
 				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
+				 glDisable(GL_LIGHT1);
 			 }
 			 else {
 				 //Balas de enemigos
@@ -124,6 +148,8 @@ void cargarLuces() {
 		 for (auto it = mapa->objetosEstaticos.begin(); it != mapa->objetosEstaticos.end(); it++) {
 			 if (glCallback::testColision(tanque->bala, *it)) {
 				 tanque->bala->enAire = false;
+				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
+				 glDisable(GL_LIGHT1);
 			 }
 			 //Balas de enemigos
 			 for each (Enemigo* ene in enemigos)
@@ -140,6 +166,8 @@ void cargarLuces() {
 				 enemigos.erase(enemigos.begin() + i);
 				 mtxEne.unlock();
 				 tanque->bala->enAire = false;
+				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
+				 glDisable(GL_LIGHT1);
 				 break;
 			 }
 		 }
@@ -148,6 +176,8 @@ void cargarLuces() {
 			 if (glCallback::testColision(ene->bala, tanque->bala)) {
 				 ene->bala->enAire = false;
 				 tanque->bala->enAire = false;
+				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
+				 glDisable(GL_LIGHT1);
 				 break;
 			 }
 		 }
@@ -155,7 +185,7 @@ void cargarLuces() {
 		 for each (Enemigo *ene in enemigos) {
 			 if (glCallback::testColision(ene->bala, tanque)) {
 				 ene->bala->enAire = false;
-				 golpeado = 100;
+				 golpeado = 50;
 			 }
 		 }
 		 this_thread::sleep_for(chrono::milliseconds(5));
@@ -228,6 +258,7 @@ int main(int argc, char **argv) {
 	glEnable(GL_FOG);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
 	glShadeModel(GL_SMOOTH);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 

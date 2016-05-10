@@ -92,8 +92,10 @@ void glCallback::teclado(unsigned char c, int x, int y)
 			tanque->vel += tanque->aceleracion;
 			break;
 		case 'j':
-			if(!tanque->bala->enAire)
+			if (!tanque->bala->enAire) {
 				PlaySound(TEXT("sounds\\disparo.wav"), NULL, SND_ASYNC | SND_FILENAME);
+				glEnable(GL_LIGHT1);
+			}
 			tanque->disparar();
 			break;
 		default:

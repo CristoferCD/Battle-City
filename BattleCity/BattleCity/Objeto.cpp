@@ -40,4 +40,5 @@ Objeto::Objeto(GLuint idLista, punto& tamBase, punto& posInicial, punto& factorE
 
 Objeto::~Objeto()
 {
+	glDeleteLists(idLista, 1);
 }
