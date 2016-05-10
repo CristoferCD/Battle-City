@@ -4,6 +4,7 @@ Cristofer Canosa Dominguez
 Proyecto Final CoGa - Battle City
 */
 
+#include <Windows.h>
 #include <vector>
 #include <iostream>
 #include <mutex>
@@ -103,6 +104,7 @@ void cargarLuces() {
 				 mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
 				 mapa->mtx.unlock();
 				 tanque->bala->enAire = false;
+				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
 			 }
 			 else {
 				 //Balas de enemigos
@@ -178,7 +180,6 @@ void display() {
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
 	tanque->dibujar();
-	tanque->boundingBox.dibujar();
 
 	mtxEne.lock();
 	for each (Enemigo *ene in enemigos)
@@ -195,7 +196,7 @@ void display() {
 		GLfloat fogColor[] = { 0.6f,0.2f,0.2f, 1.0f };
 		glFogfv(GL_FOG_COLOR, fogColor);
 	}
-	glFogf(GL_FOG_DENSITY, golpeado/100.0f+.001);
+	glFogf(GL_FOG_DENSITY, golpeado+.001);
 	golpeado = golpeado < 0 ? 0 : golpeado - 1;
 
 	glutSwapBuffers();
@@ -225,10 +226,10 @@ int main(int argc, char **argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_FOG);
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-	//glShadeModel(GL_SMOOTH);
-	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glShadeModel(GL_SMOOTH);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 
 	glutMainLoop();
 	return 0;

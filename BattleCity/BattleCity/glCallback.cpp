@@ -1,3 +1,4 @@
+#include <Windows.h>
 #include "glCallback.h"
 #include <math.h>
 #include <GL\SOIL.h>
@@ -91,6 +92,8 @@ void glCallback::teclado(unsigned char c, int x, int y)
 			tanque->vel += tanque->aceleracion;
 			break;
 		case 'j':
+			if(!tanque->bala->enAire)
+				PlaySound(TEXT("sounds\\disparo.wav"), NULL, SND_ASYNC | SND_FILENAME);
 			tanque->disparar();
 			break;
 		default:

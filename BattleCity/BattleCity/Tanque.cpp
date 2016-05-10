@@ -44,7 +44,7 @@ void Tanque::dibujar()
 
 void Tanque::disparar()
 {
-	if (!bala->enAire) {		
+	if (!bala->enAire) {	
 		bala->enAire = true;
 		bala->posActual.z = 10;
 		bala->update();				//Se fuerza la primera actualización
