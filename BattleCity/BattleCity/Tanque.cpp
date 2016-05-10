@@ -4,7 +4,7 @@
 #include <cstdio>
 
 
-Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion)
+Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, bool iluminarBala, int velMaxima, float aceleracion)
 	: Objeto(glmList(readOBJ((char*)Modelo), GLM_SMOOTH | GLM_TEXTURE), punto(.8, .8, .8), Posicion, punto(2, 2, 2), rutaTextura)
 {
 	this->velMaxima = velMaxima;
@@ -18,7 +18,7 @@ Tanque::Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int 
 	cubo();
 	glEndList();
 
-	bala = new Proyectil(listBala, punto(1, 1, 1), Posicion, punto(1, 1, 1), 0);
+	bala = new Proyectil(listBala, punto(1, 1, 1), Posicion, punto(1, 1, 1), 0, iluminarBala);
 }
 
 

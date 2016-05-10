@@ -15,7 +15,7 @@ public:
 	Proyectil *bala;
 	bool enColision;		//Indica si está en contacto con algún objeto
 
-	Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima = 1, float aceleracion = 0.5f);
+	Tanque(const char *Modelo, const char *rutaTextura, punto Posicion, bool iluminarBala = false, int velMaxima = 1, float aceleracion = 0.5f);
 	~Tanque();
 	
 	void dibujar() override;

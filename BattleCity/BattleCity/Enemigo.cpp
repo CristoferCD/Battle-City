@@ -4,7 +4,7 @@
 
 
 Enemigo::Enemigo(const char *Modelo, const char *rutaTextura, punto Posicion, int velMaxima, float aceleracion) :
-	Tanque(Modelo, rutaTextura, Posicion, velMaxima, aceleracion)
+	Tanque(Modelo, rutaTextura, Posicion, false, velMaxima, aceleracion)
 {
 }
 

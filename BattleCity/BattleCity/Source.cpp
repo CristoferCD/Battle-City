@@ -128,7 +128,6 @@ void cargarLuces() {
 				 mapa->mtx.unlock();
 				 tanque->bala->enAire = false;
 				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
-				 glDisable(GL_LIGHT1);
 			 }
 			 else {
 				 //Balas de enemigos
@@ -149,7 +148,6 @@ void cargarLuces() {
 			 if (glCallback::testColision(tanque->bala, *it)) {
 				 tanque->bala->enAire = false;
 				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
-				 glDisable(GL_LIGHT1);
 			 }
 			 //Balas de enemigos
 			 for each (Enemigo* ene in enemigos)
@@ -167,7 +165,6 @@ void cargarLuces() {
 				 mtxEne.unlock();
 				 tanque->bala->enAire = false;
 				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
-				 glDisable(GL_LIGHT1);
 				 break;
 			 }
 		 }
@@ -177,7 +174,6 @@ void cargarLuces() {
 				 ene->bala->enAire = false;
 				 tanque->bala->enAire = false;
 				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
-				 glDisable(GL_LIGHT1);
 				 break;
 			 }
 		 }
@@ -194,7 +190,7 @@ void cargarLuces() {
 
 void initComponents() {
 	mapa = new Mapa("mapas\\nivel2.map");
-	tanque = new Tanque("models\\MainTank.obj", "", mapa->getPosicion(punto(3, 1, 2)));
+	tanque = new Tanque("models\\MainTank.obj", "", mapa->getPosicion(punto(3, 1, 2)), true);
 	callback = new glCallback(tanque, glCallback::VIEW_DRONE);
 	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(0.5, 25.5, 2)), 1, 0.3));
 	enemigos.push_back(new Enemigo("models\\MainTank.obj", "", mapa->getPosicion(punto(12.5, 25.5, 2)), 1, 0.3));
@@ -207,6 +203,8 @@ void display() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	GLfloat LuzPos[] = { tanque->bala->posActual.x, tanque->bala->posActual.y, tanque->bala->posActual.z, 1.0f };
+	glLightfv(GL_LIGHT1, GL_POSITION, LuzPos);
 	glColor3f(1, 1, 1);
 	mapa->dibujar();
 	tanque->dibujar();
@@ -258,7 +256,7 @@ int main(int argc, char **argv) {
 	glEnable(GL_FOG);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
+	//glEnable(GL_LIGHT1);
 	glShadeModel(GL_SMOOTH);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 
