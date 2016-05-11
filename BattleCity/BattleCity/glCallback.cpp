@@ -14,52 +14,10 @@ glCallback::~glCallback()
 {
 }
 
-//No adaptada al tanque, desactivada por ahora
-void glCallback::joy(unsigned int mask, int x, int y, int z)
-{
-	//El valor máximo del stick es 1000, así produce un aumento entre 0.1 y 0.5
-	if (y > 300 || y < -300)
-		tanque->vel -= y / 5000.0f;
-	x = tanque->vel < 0 ? -x : x;
-	if (x > 300 || x < -300)
-		tanque->rotacion -= x / 1000.0f;
-
-	if (mask == GLUT_JOYSTICK_BUTTON_A)
-		tanque->vel = 0;
-	if (mask == GLUT_JOYSTICK_BUTTON_B) {
-		tanque->posActual.x = 0;
-		tanque->posActual.y = 0;
-	}
-	if (mask == GLUT_JOYSTICK_BUTTON_C) {
-		switch (camaraActual)
-		{
-		case glCallback::VIEW_1P:
-			camaraActual = camaras::VIEW_3P;
-			break;
-		case glCallback::VIEW_3P:
-			camaraActual = camaras::VIEW_DRONE;
-			break;
-		case glCallback::VIEW_DRONE:
-			camaraActual = camaras::VIEW_1P;
-			break;
-		default:
-			break;
-		}
-	}
-
-	tanque->vel = tanque->vel > tanque->velMaxima ? tanque->velMaxima : tanque->vel;	//Velocidad máxima
-
-	glutPostRedisplay();						
-
-}
-
 void glCallback::camara(camaras i)
 {
 	switch (i)
 	{
-	case VIEW_1P:
-		cam1persona();
-		break;
 	case VIEW_3P:
 		cam3persona();
 		break;
@@ -95,6 +53,9 @@ void glCallback::teclado(unsigned char c, int x, int y)
 			if (!tanque->bala->enAire)
 				PlaySound(TEXT("sounds\\disparo.wav"), NULL, SND_ASYNC | SND_FILENAME);
 			tanque->disparar();
+			break;
+		case 'f':
+			glutFullScreen();
 			break;
 		default:
 			break;
@@ -135,21 +96,6 @@ void glCallback::tecladoUp(unsigned char key, int x, int y)
 	}
 }
 
-void glCallback::cam1persona()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	punto objetivo;
-	objetivo.x = tanque->posActual.x + cos(tanque->rotacion*M_PI / 180)*60.0;
-	objetivo.y = tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*60.0;
-	objetivo.z = tanque->posActual.z;
-	gluPerspective(60.0, (GLdouble)this->width / this->height, 0.1, 800.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(tanque->posActual.x + cos(tanque->rotacion*M_PI / 180) * 10, tanque->posActual.y + sin(tanque->rotacion*M_PI / 180)*10.0, 30,
-		objetivo.x, objetivo.y, objetivo.z, 0, 0, 1);
-}
-
 void glCallback::cam3persona()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -169,7 +115,6 @@ void glCallback::camDrone()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(60.0, (GLdouble)this->width / this->height, 1.0, 100.0);
-	//glOrtho(-100.0f, 100.0f, -100.0f, 100.0f, 0.0, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(tanque->posActual.x, tanque->posActual.y, 100, tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 0, 1, 0);
@@ -177,8 +122,8 @@ void glCallback::camDrone()
 
 void glCallback::iluminarTanque()
 {
-	GLfloat luzPos[] = { tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 1.0 };
-	GLfloat luzDir[] = { cos(tanque->rotacion*M_PI / 180) , sin(tanque->rotacion*M_PI / 180) , 0.1 };
+	GLfloat luzPos[] = { tanque->posActual.x, tanque->posActual.y, tanque->posActual.z, 1.0f };
+	GLfloat luzDir[] = { (float)cos(tanque->rotacion*M_PI / 180) , (float)sin(tanque->rotacion*M_PI / 180) , 0.1f };
 
 	glLightfv(GL_LIGHT0, GL_POSITION, luzPos);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, luzDir);
@@ -234,10 +179,6 @@ bool glCallback::testColision(Objeto *a, Objeto *b)
 }
 
 
-void joyWrapper(unsigned int mask, int x, int y, int z)
-{
-	instanciaCB->joy(mask, x, y, z);
-}
 void camaraWrapper(glCallback::camaras i)
 {
 	instanciaCB->camara(i);

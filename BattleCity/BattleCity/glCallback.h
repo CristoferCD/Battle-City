@@ -13,7 +13,7 @@ class glCallback
 {
 public:
 
-	enum camaras {VIEW_1P, VIEW_3P, VIEW_DRONE};
+	enum camaras {VIEW_3P, VIEW_DRONE};
 	camaras camaraActual;
 	Tanque *tanque;
 	GLint height = 960;
@@ -31,14 +31,12 @@ public:
 	static bool testColision(Objeto *a, Objeto *b);
 
 private:
-	void cam1persona();
 	void cam3persona();
 	void camDrone();
 	void iluminarTanque();
 };
 
 extern "C" {
-	void joyWrapper(unsigned int mask, int x, int y, int z);
 	void camaraWrapper(glCallback::camaras i);
 	void tecladoWrapper(unsigned char c, int x, int y);
 	void tecladoUpWrapper(unsigned char key, int x, int y);

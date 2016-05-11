@@ -121,7 +121,7 @@ void cargarLuces() {
 			 }
 		 }
 		 //Colisiones de balas con Objetos Destruibles
-		 for (int i = 0; i < mapa->objetosDestruibles.size(); i++) {
+		 for (unsigned int i = 0; i < mapa->objetosDestruibles.size(); i++) {
 			 if (glCallback::testColision(tanque->bala, mapa->objetosDestruibles[i])) {
 				 mapa->mtx.lock();
 				 mapa->objetosDestruibles.erase(mapa->objetosDestruibles.begin() + i);
@@ -158,8 +158,8 @@ void cargarLuces() {
 			 }
 		 }
 		 //Colisiones de bala propia con enemigos
-		 for (int i = 0; i < enemigos.size(); i++) {
-			 if (glCallback::testColision(tanque->bala, enemigos[i])) {
+		 for (unsigned int i = 0; i < enemigos.size(); i++) {
+			 if (tanque->bala->enAire && glCallback::testColision(tanque->bala, enemigos[i])) {
 				 mtxEne.lock();
 				 enemigos.erase(enemigos.begin() + i);
 				 mtxEne.unlock();
@@ -170,7 +170,7 @@ void cargarLuces() {
 		 }
 		 //Colisiones entre balas enemigas y propias, las enemigas se atraviesan entre si
 		 for each(Enemigo *ene in enemigos) {
-			 if (glCallback::testColision(ene->bala, tanque->bala)) {
+			 if (tanque->bala->enAire && glCallback::testColision(ene->bala, tanque->bala)) {
 				 ene->bala->enAire = false;
 				 tanque->bala->enAire = false;
 				 PlaySound(NULL, NULL, SND_ASYNC | SND_FILENAME);
@@ -242,7 +242,6 @@ int main(int argc, char **argv) {
 	glutKeyboardFunc(tecladoWrapper);
 	glutKeyboardUpFunc(tecladoUpWrapper);
 	glutReshapeFunc(resizeWrapper);
-	//glutJoystickFunc(joyWrapper, 100);
 	glutTimerFunc(15, moveUpdate, 0);
 	
 	physics = thread(colisiones);
@@ -256,7 +255,6 @@ int main(int argc, char **argv) {
 	glEnable(GL_FOG);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHT1);
 	glShadeModel(GL_SMOOTH);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 

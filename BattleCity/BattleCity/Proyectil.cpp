@@ -32,14 +32,7 @@ void Proyectil::dibujarIluminada()
 {
 	if (enAire && idLista) {
 		glEnable(GL_LIGHT1);
-		//GLfloat luzEm[] = { 1.0f, 1.0f, 1.0f, 1.0 };
-		//glMaterialfv(GL_FRONT, GL_EMISSION, luzEm);
-		/*GLfloat LuzPos[] = { posActual.x, posActual.y, posActual.z, 0.0f };
-		GLfloat SpotDir[] = { posActual.x, posActual.y, posActual.z };
-		glLightfv(GL_LIGHT1, GL_POSITION, LuzPos);*/
-		//glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, SpotDir);
 		dibujar();
-		//glDisable(GL_LIGHT1);
 	}
 }
 

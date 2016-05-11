@@ -22,7 +22,6 @@ public:
 	std::vector <Objeto*> objetosEstaticos;			//Paran las balas y no atravesables.
 	std::vector <Objeto*> objetosNoDestruibles;		//Las balas lo atraviesan, pero los tanques no.
 	std::vector <Objeto*> objetosAtravesables;		//Tanto las balas como los tanques los atraviesan
-	std::vector <Objeto*> testLimites; 
 	std::mutex mtx;
 
 private:
