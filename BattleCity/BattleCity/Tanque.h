@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm.h>
+#include <GL\glm.h>
 #include "Objeto.h"
 #include "Proyectil.h"
 

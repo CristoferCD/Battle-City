@@ -1,7 +1,7 @@
 #include "Mapa.h"
 #include <fstream>
 #include <iostream>
-#include <glm.h>
+#include <GL\glm.h>
 #include "figuras.h"
 
 using namespace std;

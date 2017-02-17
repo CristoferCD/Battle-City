@@ -15,7 +15,7 @@ extern "C" {
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "glm.h"
+#include "GL\glm.h"
 
 #pragma warning (disable:4996)
 
